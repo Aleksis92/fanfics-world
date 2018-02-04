@@ -1,0 +1,30 @@
+{
+  "name": "fanfics-world",
+  "version": "1.0.0",
+  "description": "Best site for fanfics!",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "cd client && ng build --prod --env=prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aleksis92/fanfics-world.git"
+  },
+  "keywords": [
+    "fanfics",
+    "fanfic",
+    "text",
+    "world"
+  ],
+  "author": "Latyshonak Aliaksandr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Aleksis92/fanfics-world/issues"
+  },
+  "homepage": "https://github.com/Aleksis92/fanfics-world#readme",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^5.0.3"
+  }
+}
