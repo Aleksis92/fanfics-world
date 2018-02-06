@@ -129,14 +129,14 @@ export class RegisterComponent implements OnInit {
     };
 
     this.authService.registerUser(user).subscribe(data => {
-      if(!data.success) {
+      if(!(<any>data).success) {
         this.messageClass = 'alert alert-danger';
-        this.message = data.message;
+        this.message = (<any>data).message;
         this.processing = false;
         this.enableForm();
       } else {
         this.messageClass = 'alert alert-success';
-        this.message = data.message;
+        this.message = (<any>data).message;
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000)
@@ -146,24 +146,24 @@ export class RegisterComponent implements OnInit {
 
   checkEmail() {
     this.authService.checkEmail((this.form.get('email').value)).subscribe(data => {
-      if(!data.success) {
+      if(!(<any>data).success) {
         this.emailValid = false;
-        this.emailMessage = data.message;
+        this.emailMessage = (<any>data).message;
       } else {
         this.emailValid = true;
-        this.emailMessage = data.message;
+        this.emailMessage = (<any>data).message;
       }
     })
   }
 
   checkUsername() {
     this.authService.checkUsername((this.form.get('username').value)).subscribe(data => {
-      if(!data.success) {
+      if(!(<any>data).success) {
         this.usernameValid = false;
-        this.usernameMessage = data.message;
+        this.usernameMessage = (<any>data).message;
       } else {
         this.usernameValid = true;
-        this.usernameMessage = data.message;
+        this.usernameMessage = (<any>data).message;
       }
     })
   }
