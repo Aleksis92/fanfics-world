@@ -2,18 +2,18 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
-const config = require('./config/database');
+const config = require('./config');
 const path = require('path');
 const authentication = require('./routes/authentication')(router);
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
 mongoose.Promise = global.Promise;
-mongoose.connect(config.uri, (err) => {
+mongoose.connect(config.mongoose.uri, (err) => {
     if(err) {
         console.log('Fail to connect the database: ', err)
     } else {
-        console.log('Connected to database: ' + config.db);
+        console.log('Connected to database: ' + config.mongoose.db);
     }
 });
 
