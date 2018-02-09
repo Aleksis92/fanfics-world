@@ -4,7 +4,7 @@
   "description": "Best site for fanfics!",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node index.js && cd client && ng build --watch",
     "build": "cd client && ng build --prod --env=prod"
   },
   "repository": {
@@ -28,7 +28,12 @@
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "jsonwebtoken": "^8.1.1",
-    "mongoose": "^5.0.3"
+    "mongoose": "^5.0.3",
+    "passport": "*",
+    "passport-facebook": "*",
+    "passport-twitter": "*",
+    "passport-vkontakte": "*"
   }
 }

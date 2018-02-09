@@ -29,6 +29,11 @@ const appRoutes: Routes = [
     canActivate: [NotAuthGuard]
   },
   {
+    path: 'login/:token',
+    component: LoginComponent,
+    canActivate: [NotAuthGuard]
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]

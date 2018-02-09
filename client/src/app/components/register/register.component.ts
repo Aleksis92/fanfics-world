@@ -24,36 +24,31 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    this.createForm(); // Create Angular 2 Form when component loads
+    this.createForm();
   }
 
-  // Function to create registration form
   createForm() {
     this.form = this.formBuilder.group({
-      // Email Input
       email: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(5), // Minimum length is 5 characters
-        Validators.maxLength(30), // Maximum length is 30 characters
-        this.validateEmail // Custom validation
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(30),
+        RegisterComponent.validateEmail
       ])],
-      // Username Input
       username: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(3), // Minimum length is 3 characters
-        Validators.maxLength(15), // Maximum length is 15 characters
-        this.validateUsername // Custom validation
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(15),
+        RegisterComponent.validateUsername
       ])],
-      // Password Input
       password: ['', Validators.compose([
-        Validators.required, // Field is required
-        Validators.minLength(8), // Minimum length is 8 characters
-        Validators.maxLength(35), // Maximum length is 35 characters
-        this.validatePassword // Custom validation
+        Validators.required,
+        Validators.minLength(8),
+        Validators.maxLength(35),
+        RegisterComponent.validatePassword
       ])],
-      // Confirm Password Input
-      confirm: ['', Validators.required] // Field is required
-    }, { validator: this.matchingPasswords('password', 'confirm') }); // Add custom validator to form for matching passwords
+      confirm: ['', Validators.required]
+    }, { validator: this.matchingPasswords('password', 'confirm') });
   }
 
   disableForm() {
@@ -70,55 +65,43 @@ export class RegisterComponent implements OnInit {
     this.form.controls['confirm'].enable();
   }
 
-  // Function to validate e-mail is proper format
-  validateEmail(controls) {
-    // Create a regular expression
+  static validateEmail(controls) {
     const regExp = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    // Test email against regular expression
     if (regExp.test(controls.value)) {
-      return null; // Return as valid email
+      return null;
     } else {
-      return { 'validateEmail': true } // Return as invalid email
+      return { 'validateEmail': true }
     }
   }
 
-  // Function to validate username is proper format
-  validateUsername(controls) {
-    // Create a regular expression
+  static validateUsername(controls) {
     const regExp = new RegExp(/^[a-zA-Z0-9]+$/);
-    // Test username against regular expression
     if (regExp.test(controls.value)) {
-      return null; // Return as valid username
+      return null;
     } else {
-      return { 'validateUsername': true } // Return as invalid username
+      return { 'validateUsername': true }
     }
   }
 
-  // Function to validate password
-  validatePassword(controls) {
-    // Create a regular expression
+  static validatePassword(controls) {
     const regExp = new RegExp(/^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[\d])(?=.*?[\W]).{8,35}$/);
-    // Test password against regular expression
     if (regExp.test(controls.value)) {
-      return null; // Return as valid password
+      return null;
     } else {
-      return { 'validatePassword': true } // Return as invalid password
+      return { 'validatePassword': true }
     }
   }
 
-  // Funciton to ensure passwords match
   matchingPasswords(password, confirm) {
     return (group: FormGroup) => {
-      // Check if both fields are the same
       if (group.controls[password].value === group.controls[confirm].value) {
-        return null; // Return as a match
+        return null;
       } else {
-        return { 'matchingPasswords': true } // Return as error: do not match
+        return { 'matchingPasswords': true }
       }
     }
   }
 
-  // Function to submit form
   onRegisterSubmit() {
     this.processing = true;
     this.disableForm();
@@ -127,22 +110,36 @@ export class RegisterComponent implements OnInit {
       username: this.form.get('username').value,
       password: this.form.get('password').value
     };
-
     this.authService.registerUser(user).subscribe(data => {
-      if(!(<any>data).success) {
-        this.messageClass = 'alert alert-danger';
-        this.message = (<any>data).message;
-        this.processing = false;
-        this.enableForm();
+      if (!(<any>data).success) {
+        this.registerFail((<any>data).message)
       } else {
-        this.messageClass = 'alert alert-success';
-        this.message = (<any>data).message;
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 2000)
+        this.registerSuccess((<any>data).token, (<any>data).message)
       }
     });
   }
+
+
+  registerFail (message) {
+    this.messageClass = 'alert alert-danger';
+    this.message = message;
+    this.processing = false;
+    this.enableForm();
+  }
+
+  registerSuccess (token, message) {
+    this.messageClass = 'alert alert-success';
+    this.message = message;
+    this.authService.storeUserData(token);
+    this.registerSuccessTimeout()
+  }
+
+  registerSuccessTimeout () {
+    setTimeout(() => {
+      this.router.navigate(['/login']);
+    }, 2000)
+  }
+
 
   checkEmail() {
     this.authService.checkEmail((this.form.get('email').value)).subscribe(data => {

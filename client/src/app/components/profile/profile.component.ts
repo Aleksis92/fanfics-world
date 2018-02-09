@@ -10,6 +10,7 @@ export class ProfileComponent implements OnInit {
 
   username;
   email;
+  photoUrl;
 
   constructor(
     private authService: AuthService
@@ -17,9 +18,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.authService.getProfile().subscribe(profile => {
-      console.log(profile);
       this.username = (<any>profile).user.username;
       this.email = (<any>profile).user.email;
+      this.photoUrl = (<any>profile).user.photoUrl;
     })
   }
 

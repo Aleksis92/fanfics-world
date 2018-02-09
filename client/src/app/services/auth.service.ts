@@ -31,16 +31,20 @@ export class AuthService {
     return this.httpClient.post(this.domain + '/authentication/login/', user)
   }
 
+
   logout() {
     this.authToken = null;
     this.user = null;
     localStorage.clear();
   }
 
-  storeUserData(token, user) {
+  storeUserToken(token) {
     localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
     this.authToken = token;
+  }
+
+  storeUserData(user) {
+    localStorage.setItem('role', user.role);
     this.user = user;
   }
 

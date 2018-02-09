@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const router = express.Router();
 const mongoose = require('mongoose');
@@ -6,7 +7,7 @@ const config = require('./config');
 const path = require('path');
 const authentication = require('./routes/authentication')(router);
 const bodyParser = require('body-parser');
-const cors = require('cors');
+const passport = require('passport');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.mongoose.uri, (err) => {
@@ -16,10 +17,11 @@ mongoose.connect(config.mongoose.uri, (err) => {
         console.log('Connected to database: ' + config.mongoose.db);
     }
 });
-
-app.use(cors({
-    origin: 'http://localhost:4200'
-}));
+app.use(session({ resave: false,
+    saveUninitialized: true,
+    secret: 'Secret'  }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist/'));

@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { AppRoutingModule} from "./app-routing.module";
 import { FlashMessagesModule } from 'angular2-flash-messages'
+import { MarkdownModule } from 'ngx-md';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -15,7 +16,6 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard} from './guards/auth.guard';
 import { NotAuthGuard} from './guards/notAuth.guard';
-
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { NotAuthGuard} from './guards/notAuth.guard';
     HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    FlashMessagesModule.forRoot()
+    FlashMessagesModule.forRoot(),
+    MarkdownModule.forRoot()
   ],
   providers: [AuthService, AuthGuard, NotAuthGuard],
   bootstrap: [AppComponent]

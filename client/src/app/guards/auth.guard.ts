@@ -5,7 +5,7 @@ import { AuthService }      from '../services/auth.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  redirectUrl
+  redirectUrl;
 
   constructor(
     private authService: AuthService,
