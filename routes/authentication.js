@@ -6,10 +6,6 @@ const AuthFacebookStrategy = require('passport-facebook').Strategy;
 const AuthVKStrategy = require('passport-vkontakte').Strategy;
 const AuthTwitterStrategy = require('passport-twitter').Strategy;
 
-function passportSocialAuthSuccess() {
-
-}
-
 passport.use('facebook', new AuthFacebookStrategy({
         clientID: config.facebook.clientID,
         clientSecret: config.facebook.clientSecret,
@@ -81,7 +77,6 @@ passport.use('vkontakte', new AuthVKStrategy({
             }
             else {
                 const user = new User(profile);
-                console.log(user)
                 user.save(function (err, user, affected) {
                     if (!err) {
                         return done(null, {
@@ -128,7 +123,6 @@ passport.use('twitter', new AuthTwitterStrategy.Strategy({
             }
             else {
                 const user = new User(profile);
-                console.log(user)
                 user.save(function (err, user, affected) {
                     if (!err) {
                         return done(null, {

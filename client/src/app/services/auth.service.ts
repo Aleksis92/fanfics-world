@@ -17,7 +17,7 @@ export class AuthService {
 
   registerUser(user) {
     return this.httpClient.post(this.domain + '/authentication/register', user);
-}
+  }
 
   checkUsername(username) {
     return this.httpClient.get(this.domain + '/authentication/checkUsername/' + username);
@@ -30,7 +30,6 @@ export class AuthService {
   login(user) {
     return this.httpClient.post(this.domain + '/authentication/login/', user)
   }
-
 
   logout() {
     this.authToken = null;
@@ -58,7 +57,6 @@ export class AuthService {
   loggedIn() {
     return tokenNotExpired();
   }
-
 
 }
 

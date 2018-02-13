@@ -13,27 +13,21 @@
         <li class="nav-item" *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
           <a class="nav-link" routerLink="/dashboard">Dashboard</a>
         </li>
-        <li class="nav-item" *ngIf="authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" routerLink="/profile" href="#">Profile</a>
-        </li>
         <li class="nav-item" *ngIf="!authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
           <a class="nav-link" routerLink="/register" href="#">Register</a>
         </li>
         <li class="nav-item" *ngIf="!authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
           <a class="nav-link" routerLink="/login">Login</a>
         </li>
-        <li class="nav-item" *ngIf="authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link cursor" (click)="onLogoutClick()">Logout</a>
-        </li>
 
-        <!--<li class="nav-item dropdown">
+        <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
-            <a *ngIf="!authService.loggedIn()" class="dropdown-item" routerLink="/register" href="#">Register</a>
-            <a *ngIf="!authService.loggedIn()" class="dropdown-item" routerLink="/login">Login</a>
-            <a *ngIf="authService.loggedIn()" class="dropdown-item" (click)="onLogoutClick()">Logout</a>
+            <a class="dropdown-item" routerLink="/profile/info">Info</a>
+            <a class="dropdown-item" routerLink="/profile/fanfic">Fanfic</a>
+            <a class="dropdown-item" (click)="onLogoutClick()">Logout</a>
           </div>
-        </li>-->
+        </li>
       </ul>
       <form [formGroup]="form" class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" formControlName="search">

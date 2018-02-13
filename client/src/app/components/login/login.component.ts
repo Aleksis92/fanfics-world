@@ -65,7 +65,7 @@ export class LoginComponent implements OnInit {
       if(this.previousUrl) {
         this.router.navigate([this.previousUrl])
       } else {
-        this.router.navigate(['/dashboard'])
+        this.router.navigate(['/profile/fanfic'])
       }
     }, 2000)
   }
@@ -105,10 +105,8 @@ export class LoginComponent implements OnInit {
       if (params.token) {
         this.saveUserToken(params.token.replace(":", ""));
         this.authService.getProfile().subscribe(data => {
-          console.log(data)
           this.loginSuccess("Social authentication success", (<any>data).user)
         });
-
       }
       this.location.replaceState("/login");
       this.authGuardRedirect()

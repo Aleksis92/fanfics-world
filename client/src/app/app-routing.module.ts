@@ -7,6 +7,9 @@ import { LoginComponent } from './components/login/login.component';
 import { ProfileComponent} from './components/profile/profile.component';
 import { AuthGuard} from './guards/auth.guard';
 import { NotAuthGuard } from './guards/notAuth.guard';
+import {FanficComponent} from './components/fanfic/fanfic.component';
+import {UserInfoComponent} from './components/profile/user-info/user-info.component';
+import {FileUploadComponent} from './components/file-upload/file-upload.component';
 
 const appRoutes: Routes = [
   {
@@ -36,7 +39,11 @@ const appRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children: [
+      {path: 'fanfic', component: FanficComponent},
+      {path: 'info', component: UserInfoComponent},
+    ]
   },
   { path: '**', component: HomeComponent }
 ];
