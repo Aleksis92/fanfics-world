@@ -1,0 +1,22 @@
+<h2>Add chapters</h2>
+<form [formGroup]="form" (submit)="onAddChapterSubmit()">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div [ngClass]="{'form-control-danger': (form.controls.title.errors && form.controls.title.dirty), 'form-control-success': !form.controls.title.errors}">
+      <input type="text" name="title" class="form-control" autocomplete="off" placeholder="*Title" formControlName="title"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="chapter">Chapter</label>
+    <div [ngClass]="{'has-error': (form.controls.chapter.errors && form.controls.chapter.dirty), 'has-success': !form.controls.chapter.errors}">
+      <textarea [froalaEditor]="froalaOptions" name="chapter" class="form-control" formControlName="chapter" ></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.chapter.errors?.required && form.controls.chapter.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Add chapter" />
+</form>

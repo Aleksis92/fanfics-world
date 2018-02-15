@@ -1,0 +1,96 @@
+<h2>
+  <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none"><i class="fa fa-bars"></i></a>
+  Fanfics
+</h2>
+
+<table class="table" id="fanfics-table">
+  <thead>
+  <tr>
+    <th scope="col" class="toolbar">
+      <a disabled="" class="pointer fa fa-2x fa-plus" (click)="addFanfic()"></a>
+      <a class="pointer fa fa-2x fa-edit" (click)="editFanficToggle()"></a>
+      <a class="pointer fa fa-2x fa-trash" (click)="newFanficToggle()" [ngx-scroll-to]="'new-fanfic'"></a> </th>
+  </tr>
+  </thead>
+</table>
+
+<div class="mat-container mat-elevation-z8">
+  <div class="mat-header">
+    <mat-form-field>
+      <input matInput #filter placeholder="Filter fanfic">
+    </mat-form-field>
+  </div>
+  <mat-table #table [dataSource]="dataSource" matSort  class="mat-cell">
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(row) : null"
+                      [checked]="selection.isSelected(row)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.title}} </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="cover">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Cover </mat-header-cell>
+      <mat-cell *matCellDef="let element"><img class="scale" src="{{element.cover}}"></mat-cell>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="genre">
+      <mat-header-cell *matHeaderCellDef mat-sort-header=""> Genre </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.genre}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="tags">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Tags </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.tags}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)"></mat-row>
+  </mat-table>
+
+  <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">
+    No results
+  </div>
+
+  <mat-paginator #paginator
+                 [length]="dataSource.filteredData.length"
+                 [pageIndex]="0"
+                 [pageSize]="5"
+                 [pageSizeOptions]="[5, 10, 25, 100]"
+                 [showFirstLastButtons]="true">
+  </mat-paginator>
+</div>
+<edit-fanfic *ngIf="editFanfic"></edit-fanfic>
+<new-fanfic *ngIf="newFanfic" id="new-fanfic" ></new-fanfic>
+
+
+
+
+
+
+
+
+

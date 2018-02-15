@@ -1,0 +1,38 @@
+.dropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100px;
+  border: 2px dashed #e5e5e5;
+  border-radius: 5px;
+  background: white;
+  margin: 10px 0;
+}
+
+.dropzone:hover {
+   border: 2px solid #e5e5e5;
+ }
+
+progress::-webkit-progress-value {
+  transition: width 0.1s ease;
+}
+
+img {
+  width: 150px
+}
+
+.file-input {
+  display: none;
+}
+
+.file-cta {
+  cursor: pointer;
+}
+
+.drop-image {
+  border-radius: 15px;
+  text-align: center;
+  margin: auto;
+}
+

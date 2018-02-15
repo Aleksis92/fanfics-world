@@ -1,0 +1,60 @@
+<div class="container">
+  <h3 mat-dialog-title>Add new Issue</h3>
+
+  <div class="form-group">
+    <div class="form-group">
+      <label for="cover">Cover</label>
+      <file-upload></file-upload>
+    </div>
+  </div>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Title" [(ngModel)]="data.title" name="title" required >
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!--Textarea for demo purposes-->
+    <div class="form">
+      <mat-form-field color="accent">
+        <textarea matInput #input class="form-control" placeholder="Description" [(ngModel)]="data.description" name="description" required ></textarea>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!--Contains mat-hint for characters count and has maxLengt set-->
+    <!--<div class="form">
+      <mat-form-field color="accent">
+        <file-upload></file-upload>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>-->
+
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <mat-select class="form-control" name="genre" [(ngModel)]="data.genre">
+          <mat-option value="Anime">Anime</mat-option>
+          <mat-option value="Movie">Movie</mat-option>
+          <mat-option value="Song">Song</mat-option>
+          <mat-option value="Comics">Comics</mat-option>
+          <mat-option value="Manga">Manga</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <input matInput #input class="form-control" placeholder="Tags" [autocomplete]="on" [(ngModel)]="data.tags" name="tags" >
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button [type]="submit" [disabled]="!formControl.valid" [mat-dialog-close]="1" (click)="confirmAdd()">Save</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

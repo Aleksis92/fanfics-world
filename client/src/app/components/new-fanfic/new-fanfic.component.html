@@ -1,0 +1,61 @@
+<h2>New fanfic</h2>
+<form [formGroup]="form" (submit)="onNewFanficSubmit()">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div [ngClass]="{'form-control-danger': (form.controls.title.errors && form.controls.title.dirty), 'form-control-success': !form.controls.title.errors}">
+      <input type="text" name="title" class="form-control" autocomplete="off" placeholder="*Title" formControlName="title"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.title.errors?.required && form.controls.title.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <div [ngClass]="{'has-error': (form.controls.description.errors && form.controls.description.dirty), 'has-success': !form.controls.description.errors}">
+      <input type="text" name="description" class="form-control" autocomplete="off" placeholder="*Description" formControlName="description"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.description.errors?.required && form.controls.description.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-group">
+      <label for="cover">Cover</label>
+      <file-upload></file-upload>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="genre">Genre</label>
+    <div [ngClass]="{'has-error': (form.controls.genre.errors && form.controls.genre.dirty), 'has-success': !form.controls.genre.errors}">
+      <select class="form-control" name="genre" formControlName="genre">
+        <option>Anime</option>
+        <option>Movie</option>
+        <option>Song</option>
+        <option>Comics</option>
+        <option>Manga</option>
+      </select>
+      <ul class="help-block">
+        <li *ngIf="form.controls.genre.errors?.required && form.controls.genre.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="tags">Tags</label>
+    <div [ngClass]="{'has-error': (form.controls.tags.errors && form.controls.tags.dirty), 'has-success': !form.controls.tags.errors}">
+      <input type="text" name="tags" class="form-control" autocomplete="on" placeholder="*Tags" formControlName="tags"/>
+      <ul class="help-block">
+        <li *ngIf="form.controls.tags.errors?.required && form.controls.tags.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <!--<div class="form-group">
+    <label for="fanfic">Fanfic</label>
+    <div [ngClass]="{'has-error': (form.controls.fanfic.errors && form.controls.fanfic.dirty), 'has-success': !form.controls.fanfic.errors}">
+      <textarea [froalaEditor]="froalaOptions" name="fanfic" class="form-control" formControlName="fanfic" ></textarea>
+      <ul class="help-block">
+        <li *ngIf="form.controls.fanfic.errors?.required && form.controls.fanfic.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>-->
+  <input type="submit" class="btn btn-primary" value="Create fanfic" [ngx-scroll-to]="'fanfics-table'" />
+</form>

@@ -24,6 +24,7 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "@cloudinary/angular": "^2.1.1",
+    "@nicky-lenaers/ngx-scroll-to": "^0.6.0",
     "angular-datatables": "^5.0.0",
     "angular-froala-wysiwyg": "^2.7.5",
     "angular2-flash-messages": "^2.0.5",
