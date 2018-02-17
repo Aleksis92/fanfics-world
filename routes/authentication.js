@@ -236,6 +236,7 @@ module.exports = (router) => {
         }
     });
 
+
     router.post('/login', (req, res) => {
        if (!req.body.username) {
            res.json({ success: false, message: 'No username was provided'})
@@ -320,7 +321,7 @@ module.exports = (router) => {
     });
 
     router.get('/profile', (req, res) => {
-        User.findOne({ _id: req.decoded.userId}).select('username email role photoUrl').exec((err, user) => {
+        User.findOne({ _id: req.decoded.userId}).select('username email role photoUrl status').exec((err, user) => {
             if (err) {
                 res.json({ success: false, message: err});
             } else {

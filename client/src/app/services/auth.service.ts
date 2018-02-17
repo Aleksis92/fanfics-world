@@ -9,7 +9,9 @@ export class AuthService {
   authToken;
   user;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    this.checkAuth()
+  }
 
   loadToken() {
     this.authToken = localStorage.getItem('token');
@@ -43,7 +45,6 @@ export class AuthService {
   }
 
   storeUserData(user) {
-    localStorage.setItem('role', user.role);
     this.user = user;
   }
 
@@ -56,6 +57,32 @@ export class AuthService {
 
   loggedIn() {
     return tokenNotExpired();
+  }
+
+  isAdmin() {
+    if (this.user) {
+      if (this.user.role == "Admin") {
+        return true
+      }
+    }
+    return false;
+  }
+
+  isBlocked() {
+    if (this.user) {
+      if (this.user.status == "Unblock") {
+        return true
+      }
+    }
+    return false;
+  }
+
+  checkAuth() {
+    if (!this.user && this.loggedIn()) {
+      this.getProfile().subscribe(data => {
+        this.user = (<any>data).user;
+      })
+    }
   }
 
 }

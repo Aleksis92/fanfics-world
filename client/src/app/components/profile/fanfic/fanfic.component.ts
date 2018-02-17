@@ -1,9 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import { HttpClient} from '@angular/common/http';
-import { FanficService} from '../../../services/fanfic.service';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FanficService } from '../../../services/fanfic.service';
+import { AuthService } from '../../../services/auth.service';
 import { UserFanfics } from '../../../models/user-fanfics';
 import { MatDialog, MatPaginator, MatSort } from '@angular/material';
-import { DataSource, SelectionModel} from '@angular/cdk/collections';
+import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/merge';
@@ -11,8 +12,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import {AddFanficDialogComponent} from './add-fanfic-dialog/add-fanfic-dialog.component';
-import {AuthService} from '../../../services/auth.service';
+
 
 @Component({
   selector: 'fanfic',
@@ -21,8 +21,7 @@ import {AuthService} from '../../../services/auth.service';
 })
 
 export class FanficComponent implements OnInit {
-  newFanfic = false;
-  editFanfic = false;
+
   allUserFanfics: FanficService;
 
   displayedColumns = ['select', 'title', 'description', 'cover', 'genre', 'tags'];
@@ -38,7 +37,8 @@ export class FanficComponent implements OnInit {
     private fanficService: FanficService,
     private dialog: MatDialog,
   ) {
-    this.toggleListener()
+    this.toggleListener();
+    this.NewFanficListener();
   }
 
   ngOnInit() {
@@ -86,9 +86,7 @@ export class FanficComponent implements OnInit {
   }
 
   toggleListener() {
-    this.selection.onChange.subscribe((changeFanfics) =>
-    {
-      console.log("select");
+    this.selection.onChange.subscribe((changeFanfics) => {
       if (changeFanfics.added[0])   // will be undefined if no selection
       {
         console.log(this.selection.selected)
@@ -108,33 +106,14 @@ export class FanficComponent implements OnInit {
       this.dataSource._allUserFanfic.data.forEach(row => this.selection.select(row));
   }
 
-  addFanfic(userFanfic: UserFanfics) {
-    const dialogRef = this.dialog.open(AddFanficDialogComponent, {
-      data: {userFanfic: userFanfic }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result === 1) {
-    this.allUserFanfics.dataChange.value.push(this.fanficService.getDialogData());
-    console.log(this.fanficService.getDialogData());
-    this.refreshTable();
+  NewFanficListener() {
+    this.fanficService.newFanfic.subscribe(data => {
+      if (data) {
+
+        this.allUserFanfics.dataChange.value.push(<any>data);
+        this.refreshTable();
       }
-    });
-  }
-
-  newFanficToggle() {
-    if (this.newFanfic) {
-      this.newFanfic = false;
-    } else {
-      this.newFanfic = true;
-    }
-  }
-
-  editFanficToggle() {
-    if (this.editFanfic) {
-      this.editFanfic = false;
-    } else {
-      this.editFanfic = true;
-    }
+    })
   }
 }
 
@@ -171,7 +150,6 @@ export class FanficDataSource extends DataSource<UserFanfics> {
     ];
 
     this._allUserFanfic.getAllUserFanfics();
-    console.log(this._allUserFanfic);
 
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data

@@ -1,15 +1,21 @@
 <h2>
   <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none"><i class="fa fa-bars"></i></a>
-  Fanfics
+  Admin dashboard
 </h2>
+
+<flash-messages></flash-messages>
 
 <table class="table" id="fanfics-table">
   <thead>
   <tr>
     <th scope="col" class="toolbar">
-      <a class="pointer fa fa-2x fa-plus" (click)="this.fanficService.newFanficToggle()" [ngx-scroll-to]="'new-fanfic'"></a>
-      <a class="pointer fa fa-2x fa-edit" (click)="this.fanficService.editFanficToggle()" [ngx-scroll-to]="'edit-fanfic'"></a>
-      <a class="pointer fa fa-2x fa-trash"></a> </th>
+      <form>
+      <i class="pointer fa fa-2x fa-user-circle" [class.disabled]="this.selection.selected.length != 1" (click)="changeBlockStatus()"></i>
+      <i class="pointer fa fa-2x fa-low-vision" [class.disabled]="this.selection.selected.length == 0" (click)="changeUsersRole()"></i>
+      <i class="pointer fa fa-2x fa-lock" [class.disabled]="this.selection.selected.length == 0" (click)="changeBlockStatus()"></i>
+      <i class="pointer fa fa-2x fa-trash" [class.disabled]="this.selection.selected.length == 0" (click)="deleteUsers()"></i>
+      </form>
+    </th>
   </tr>
   </thead>
 </table>
@@ -39,32 +45,37 @@
     </ng-container>
 
     <!-- Position Column -->
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.title}} </mat-cell>
+    <ng-container matColumnDef="_id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> _id </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user._id}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.description}} </mat-cell>
+    <ng-container matColumnDef="username">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.username}} </mat-cell>
     </ng-container>
 
     <!-- Weight Column -->
-    <ng-container matColumnDef="cover">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Cover </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"><img class="scale" src="{{fanfic.cover}}"></mat-cell>
+    <ng-container matColumnDef="photo">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Photo </mat-header-cell>
+      <mat-cell *matCellDef="let user"><img class="scale" src="{{user.photoUrl}}"></mat-cell>
     </ng-container>
 
     <!-- Symbol Column -->
-    <ng-container matColumnDef="genre">
-      <mat-header-cell *matHeaderCellDef mat-sort-header=""> Genre </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.genre}} </mat-cell>
+    <ng-container matColumnDef="role">
+      <mat-header-cell *matHeaderCellDef mat-sort-header=""> Role </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.role}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="tags">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Tags </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.tags}} </mat-cell>
+    <ng-container matColumnDef="provider">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Provider </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.provider}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
+      <mat-cell *matCellDef="let user"> {{user.status}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -83,8 +94,6 @@
                  [showFirstLastButtons]="true">
   </mat-paginator>
 </div>
-<edit-fanfic *ngIf="this.fanficService.editFanficVisible" id="edit-fanfic"></edit-fanfic>
-<new-fanfic *ngIf="this.fanficService.newFanficVisible" id="new-fanfic" ></new-fanfic>
 
 
 

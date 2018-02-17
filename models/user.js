@@ -107,6 +107,7 @@ const userSchema = new Schema({
     provider: {type: String, required: false},
     photoUrl: {type: String, required: false},
     role: {type: String, default: 'User'},
+    status: {type: String, default: 'Unblock'},
 });
 
 userSchema.pre('save', function(next) {

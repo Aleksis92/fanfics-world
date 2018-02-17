@@ -2,7 +2,7 @@ const Fanfic = require('../models/fanfic');
 
 module.exports = (router) => {
 
-    router.post('/save', (req, res) => {
+    router.post('/saveFanfic', (req, res) => {
         console.log(req.body);
         let fanfic = new Fanfic({
             title: req.body.title,
@@ -17,37 +17,30 @@ module.exports = (router) => {
                 console.log('success');
                 res.json({success: true, message: 'success', fanfic: JSON.stringify(fanfic)})
             } else {
-                console.log('failed');
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }
         });
     });
 
-    router.get('/all', (req, res) => {
+    router.get('/allUserFanfics', (req, res) => {
         Fanfic.find({createdBy: req.decoded.userId}).populate('createdBy').exec(function(err, fanfics) {
             if(!err) {
-                console.log('success');
                 res.json({success: true, message: 'success', fanfics: JSON.stringify(fanfics)})
             } else {
-                console.log('failed');
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }
         });
     });
 
-    router.post('/save/chapter', (req, res) => {
-        console.log("chapter")
-        console.log(req.body)
+    router.post('/save/fanficChapter', (req, res) => {
         let chapter = {
             title: req.body.title,
             chapter: req.body.chapter
         };
         Fanfic.findOneAndUpdate({title: "f"}, {$push: {fanficChapters: chapter}} ,(err) => {
             if(!err) {
-                console.log('success');
                 res.json({success: true, message: 'success'})
             } else {
-                console.log('failed');
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }
         });

@@ -1,9 +1,8 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { AuthService } from '../../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FileUploadComponent } from '../file-upload/file-upload.component';
-import { FanficService } from '../../services/fanfic.service';
-import { UserFanfics } from '../../models/user-fanfics';
+import { FileUploadComponent } from '../../../file-upload/file-upload.component';
+import { FanficService } from '../../../../services/fanfic.service';
 
 
 @Component({
@@ -15,7 +14,6 @@ export class NewFanficComponent implements OnInit {
 
   newFanfic = false;
   @ViewChild(FileUploadComponent) fileUploadComponent;
-  @Output() onNewFanficSubmit = new EventEmitter<UserFanfics>();
   form: FormGroup;
 
   constructor(
@@ -25,19 +23,6 @@ export class NewFanficComponent implements OnInit {
   ) {
     this.createForm();
   }
-
-  newFanficSubmit(newFanfic:UserFanfics) {
-  const fanficTitle = {
-    title: this.form.get('title').value,
-    description: this.form.get('description').value,
-    cover: this.fileUploadComponent.downloadURL.value,
-    genre: this.form.get('genre').value,
-    tags: this.form.get('tags').value,
-  };
-  this.fanficService.createFanficTitle(fanficTitle);
-  this.onNewFanficSubmit.emit(newFanfic);
-  }
-
 
   ngOnInit() {
   }
@@ -53,7 +38,7 @@ export class NewFanficComponent implements OnInit {
     })
   }
 
-  /*onNewFanficSubmit() {
+  onNewFanficSubmit() {
     const fanficTitle = {
       title: this.form.get('title').value,
       description: this.form.get('description').value,
@@ -62,7 +47,7 @@ export class NewFanficComponent implements OnInit {
       tags: this.form.get('tags').value,
       //fanfic: this.form.get('fanfic').value
     };
+    this.fanficService.newFanficToggle();
     this.fanficService.createFanficTitle(fanficTitle);
-  }*/
-
+  }
 }

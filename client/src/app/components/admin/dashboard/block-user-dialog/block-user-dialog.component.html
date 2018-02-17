@@ -1,0 +1,21 @@
+<div class="container">
+  <h3 mat-dialog-title>Change users block status</h3>
+
+  <form class="mat-dialog-content" (ngSubmit)="submit" #formControl="ngForm">
+
+    <div class="form">
+      <mat-form-field color="accent">
+        <mat-select class="form-control" name="status" [(ngModel)]="data.status" placeholder="Select new users status">
+          <mat-option value="Block">Block</mat-option>
+          <mat-option value="Unblock">Unblock</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button mat-button [type]="submit" [mat-dialog-close]="1" (click)="confirmBlock()">{{data.status}}</button>
+      <button mat-button (click)="onNoClick()" tabindex="-1">Cancel</button>
+    </div>
+  </form>
+</div>

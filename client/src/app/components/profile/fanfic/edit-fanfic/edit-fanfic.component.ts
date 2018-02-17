@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {FileUploadComponent} from '../file-upload/file-upload.component';
-import {AuthService} from '../../services/auth.service';
+import {FileUploadComponent} from '../../../file-upload/file-upload.component';
+import {AuthService} from '../../../../services/auth.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {FanficService} from '../../services/fanfic.service';
+import {FanficService} from '../../../../services/fanfic.service';
 
 @Component({
   selector: 'edit-fanfic',

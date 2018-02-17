@@ -7,6 +7,7 @@ const config = require('./config');
 const path = require('path');
 const authentication = require('./routes/authentication')(router);
 const fanfic = require('./routes/fanfic')(router);
+const user = require('./routes/user')(router);
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
@@ -27,7 +28,9 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/client/dist/'));
 app.use('/authentication', authentication);
+app.use('/users', user);
 app.use('/fanfic', fanfic);
+
 
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/client/dist/index.html'));
