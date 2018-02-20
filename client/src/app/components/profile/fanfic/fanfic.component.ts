@@ -15,8 +15,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 
-
-
 @Component({
   selector: 'fanfic',
   templateUrl: './fanfic.component.html',
@@ -27,7 +25,7 @@ export class FanficComponent implements OnInit, OnDestroy {
 
   allUserFanfics: FanficService;
 
-  displayedColumns = ['actions', 'title', 'description', 'cover', 'genre', 'tags', 'chaptersCount'];
+  displayedColumns = ['actions', 'title', 'description', 'cover', 'genre', 'tags', 'chaptersCount', 'updatedAt'];
   selection = new SelectionModel<UserFanfics>(true, []);
   dataSource: FanficDataSource | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -124,12 +122,16 @@ export class FanficComponent implements OnInit, OnDestroy {
     })
   }
 
-  displayEditUser(data) {
-    if(data.message == "success") {
-      this.refreshTableMessanger('Selected user successful edited to  ', "alert-success")
-    } else {
-      this.refreshTableMessanger('Error', 'alert-danger')
-    }
+  deleteFanfic(fanfic) {
+    this.fanficService.deleteFanficHTTP(fanfic._id).subscribe(data => {
+      if ((<any>data).success) {
+      const foundIndex = this.allUserFanfics.dataChange.value.findIndex(users => users._id === fanfic._id);
+      this.allUserFanfics.dataChange.value.splice(foundIndex, 1);
+      this.refreshTableMessanger('Deleted success', 'alert-success')
+      } else {
+        this.refreshTableMessanger('Error', 'alert-fanger')
+      }
+    })
   }
 
   refreshTableMessanger(message: string, cssClass : string) {
@@ -181,7 +183,7 @@ export class FanficDataSource extends DataSource<UserFanfics> {
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
       this.filteredData = this._allUserFanfic.data.slice().filter((userFanfic: UserFanfics) => {
-        const searchStr = (userFanfic.title + userFanfic.description + userFanfic.genre + userFanfic.tags).toLowerCase();
+        const searchStr = (userFanfic.title + userFanfic.description + userFanfic.genre + userFanfic.tags + userFanfic.chaptersCount).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
@@ -216,6 +218,7 @@ export class FanficDataSource extends DataSource<UserFanfics> {
         case 'genre': [propertyA, propertyB] = [a.genre, b.genre]; break;
         case 'tags': [propertyA, propertyB] = [a.tags, b.tags]; break;
         case 'chaptersCount': [propertyA, propertyB] = [a.chaptersCount, b.chaptersCount]; break;
+        case 'updatedAt': [propertyA, propertyB] = [a.updatedAt, b.updatedAt]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

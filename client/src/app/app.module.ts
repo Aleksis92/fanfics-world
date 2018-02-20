@@ -3,7 +3,7 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import { AppRoutingModule} from "./app-routing.module";
 import { FlashMessagesModule } from 'angular2-flash-messages'
 import { FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
@@ -13,6 +13,9 @@ import { AngularFireStorageModule} from 'angularfire2/storage';
 import { AngularFireAuthModule} from 'angularfire2/auth';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { InlineEditorModule } from 'ng2-inline-editor';
+import { MomentModule } from 'angular2-moment';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { environment} from '../environments/environment';
 
@@ -61,6 +64,10 @@ import { MatTableModule,
          MatButtonModule,
          MatDialogModule,
         } from '@angular/material';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
@@ -113,7 +120,15 @@ import { MatTableModule,
     MatToolbarModule,
     MatButtonModule,
     ScrollToModule.forRoot(),
-    InlineEditorModule
+    InlineEditorModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+        }
+    }),
+    MomentModule
   ],
   entryComponents: [
     DeleteUserDialogComponent,
@@ -123,4 +138,4 @@ import { MatTableModule,
   providers: [AuthService, FanficService, UserService, AuthGuard, NotAuthGuard, AdminSerfGuard],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

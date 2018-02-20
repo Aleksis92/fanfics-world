@@ -52,7 +52,6 @@ export class AddChapterComponent implements OnInit, OnDestroy {
     if(this.fileUploadComponent.downloadURL) {
       chapter.cover = this.fileUploadComponent.downloadURL.value
     }
-    console.log(chapter)
     this.addChapter(chapter)
   }
 
@@ -60,8 +59,8 @@ export class AddChapterComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.fanficService.addChapterVisible = false;
     }, 700);
-    this.fanficService.addFanficChapter(chapter).subscribe(data => {
-      if ((<any>data).message !== "success") {
+    this.fanficService.addFanficChapterHTTP(chapter).subscribe(data => {
+      if (!(<any>data).success) {
         this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
       } else {
         this.flashMessagesService.show('Successful added new chapter', {cssClass: 'alert-success'});

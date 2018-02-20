@@ -47,49 +47,63 @@ export class FanficService {
     this.defaultFanficEditorConfig()
   }
 
+  defaultFanficEditorConfig() {
+    this.editFanficVisible = false;
+    this.editChapterVisible = true;
+    this.addChapterVisible = false;
+  }
+
   get data(): UserFanfics[] {
     return this.dataChange.value;
   }
 
-  createFanficTitle(fanficTitle) {
+  createFanficTitleHTTP(fanficTitle) {
     return this.httpClient.post(this.domain + '/fanfic/save/fanfic', fanficTitle , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }})
   }
 
-  updateFanficTitle(fanficTitle) {
+  updateFanficTitleHTTP(fanficTitle) {
     return this.httpClient.post(this.domain + '/fanfic/update/fanficTitle', fanficTitle , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }})
+  }
+
+  addFanficChapterHTTP(chapter) {
+    return this.httpClient.post(this.domain + '/fanfic/save/fanficChapter', chapter , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }});
+  }
+
+  editFanficChapterHTTP(chapter) {
+    return this.httpClient.post(this.domain + '/fanfic/update/fanficChapter', chapter , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }});
+  }
+
+  deleteFanficHTTP(_id) {
+    const fanfic = {_id: _id};
+    return this.httpClient.post(this.domain + '/fanfic/delete/fanficTitle', fanfic , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }});
+  }
+
+  deleteChapterHTTP(_id) {
+    const fanfic = {_id: _id};
+    return this.httpClient.post(this.domain + '/fanfic/delete/fanficTitle', fanfic , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }});
   }
 
   getAllUserFanfics(_id) {
     return this.httpClient.post(this.domain + '/fanfic/get/allUserFanfics' , _id, { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }}).subscribe(data => {
-      this.dataChange.next(JSON.parse((<any>data).fanfics));
-    },
+        this.dataChange.next(JSON.parse((<any>data).fanfics));
+      },
       (error: HttpErrorResponse) => {
         console.log(error.name + ' ' + error.message)
       })
-  }
-
-  addFanficChapter(chapter) {
-    return this.httpClient.post(this.domain + '/fanfic/save/fanficChapter', chapter , { headers: {
-        'authorization': this.authService.authToken, 'content-type': 'application/json'
-      }});
-  }
-
-  editFanficChapter(chapter) {
-    return this.httpClient.post(this.domain + '/fanfic/update/fanficChapter', chapter , { headers: {
-        'authorization': this.authService.authToken, 'content-type': 'application/json'
-      }});
-  }
-
-  defaultFanficEditorConfig() {
-    this.editFanficVisible = false;
-    this.editChapterVisible = false;
-    this.addChapterVisible =true;
   }
 
 }

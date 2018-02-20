@@ -60,12 +60,12 @@ export class EditFanficComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.fanficService.editFanficVisible = false;
     }, 700);
-    this.fanficService.updateFanficTitle(fanficTitle).subscribe(data => {
-      if ((<any>data).message !== "success") {
+    this.fanficService.updateFanficTitleHTTP(fanficTitle).subscribe(data => {
+      if (!(<any>data).success) {
         this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
       } else {
         this.flashMessagesService.show('Selected fanfic successful updated', {cssClass: 'alert-success'});
-        this.fanficService.newFanfic.next(JSON.parse((<any>data).fanfic))
+        this.fanficService.editFanfic.next(JSON.parse((<any>data).fanfic))
       }
     });
   }

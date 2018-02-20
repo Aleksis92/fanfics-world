@@ -62,12 +62,11 @@ export class EditChapterComponent implements OnInit {
   }
 
   editChapter() {
-    this.fanficService.editFanficChapter(this.assemblyChapter()).subscribe(data => {
-      if ((<any>data).message !== "success") {
+    this.fanficService.editFanficChapterHTTP(this.assemblyChapter()).subscribe(data => {
+      if (!(<any>data).success) {
         this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
       } else {
         this.flashMessagesService.show('Fanfic chapter successful edited', {cssClass: 'alert-success'});
-        console.log(JSON.parse((<any>data).chapter))
         this.fanficService.editChapter.next(JSON.parse((<any>data).chapter))
       }
     })

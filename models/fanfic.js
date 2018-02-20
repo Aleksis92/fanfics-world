@@ -1,3 +1,4 @@
+const timestamps = require('mongoose-timestamp')
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
@@ -21,7 +22,9 @@ const fanficSchema = new Schema({
     fanficChapters: [chapterSchema]
 });
 
+
 fanficSchema.set('autoIndex', false);
 chapterSchema.set('autoIndex', false);
-
+fanficSchema.plugin(timestamps);
+mongoose.model('Fanfic', fanficSchema);
 module.exports = mongoose.model('Fanfic', fanficSchema);

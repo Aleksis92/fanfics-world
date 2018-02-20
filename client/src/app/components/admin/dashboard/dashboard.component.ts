@@ -135,7 +135,7 @@ export class DashboardComponent implements OnInit {
   }
 
   displayUsersBlock(data, selectedUser, status) {
-    if(data.message == "success") {
+    if(data.success) {
       this.blockUsersIterator(selectedUser, status);
       this.refreshTableMessanger('Selected users successful ' + status.toLowerCase() + 'ed', "alert-success")
     } else {
@@ -144,7 +144,7 @@ export class DashboardComponent implements OnInit {
   }
 
   displayUsersDelete(data, selectedUser) {
-    if(data.message == "success") {
+    if(data.success) {
       this.deleteUsersIterator(selectedUser);
       this.refreshTableMessanger('Selected users successful deleted', "alert-success")
     } else {
@@ -153,7 +153,7 @@ export class DashboardComponent implements OnInit {
   }
 
   displayUsersRole(data, selectedUser, role) {
-    if(data.message == "success") {
+    if(data.success) {
       this.changeUsersIterator(selectedUser, role);
       this.refreshTableMessanger('Selected users role successful changed to  ' + role.toLowerCase(), "alert-success")
     } else {

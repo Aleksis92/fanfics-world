@@ -6,4 +6,6 @@ export interface UserFanfics {
   genre: string;
   tags: string;
   chaptersCount: number;
+  updatedAt: string;
+  createdAt: string;
 }

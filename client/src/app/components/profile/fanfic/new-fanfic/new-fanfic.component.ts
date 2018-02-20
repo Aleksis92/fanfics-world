@@ -25,6 +25,7 @@ export class NewFanficComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fanficService.coverRefresh = false;
   }
 
   createForm() {
@@ -53,8 +54,8 @@ export class NewFanficComponent implements OnInit {
 
   saveFanfic(fanficTitle) {
     this.fanficService.newFanficToggle();
-    this.fanficService.createFanficTitle(fanficTitle).subscribe(data => {
-      if ((<any>data).message !== "success") {
+    this.fanficService.createFanficTitleHTTP(fanficTitle).subscribe(data => {
+      if (!(<any>data).success) {
         this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
       } else {
         this.flashMessagesService.show('New fanfic successful added', {cssClass: 'alert-success'});

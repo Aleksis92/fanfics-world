@@ -29,13 +29,10 @@ module.exports = (router) => {
             chapter: req.body.chapter,
             cover: req.body.cover
         };
-        console.log(chapter);
         Fanfic.findByIdAndUpdate({_id: req.body.fanficId}, {$push: {fanficChapters: chapter}} ,{new: true}, (err, chapterDB) => {
             if(!err) {
-                console.log('DB: ' + chapterDB)
                 res.json({success: true, message: 'success', fanfic: JSON.stringify(chapterDB)})
             } else {
-                console.log('error: ' + err)
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }
         });
@@ -61,6 +58,41 @@ module.exports = (router) => {
     Fanfic.update({'fanficChapters._id': req.body._id}, {$set: {'fanficChapters.$': chapter}}, {new: true}, (err) => {
             if(!err) {
                 res.json({success: true, message: 'success', chapter: JSON.stringify(chapter)})
+            } else {
+                res.json({success: false, message: 'Could not save user. Error: ', err})
+            }
+        });
+    });
+
+    router.post('/delete/fanficTitle', (req, res) => {
+        Fanfic.findByIdAndRemove(req.body._id, (err) => {
+            if(!err) {
+                res.json({success: true, message: 'success'})
+            } else {
+                res.json({success: false, message: 'Could not save user. Error: ', err})
+            }
+        });
+    });
+
+    router.post('/delete/fanficChapter', (req, res) => {
+        Fanfic.findByIdAndRemove(req.body._id, (err) => {
+            if(!err) {
+                res.json({success: true, message: 'success'})
+            } else {
+                res.json({success: false, message: 'Could not save user. Error: ', err})
+            }
+        });
+    });
+
+    router.post('/delete/fanficChapter', (req, res) => {
+        let chapter = {
+            title: req.body.title,
+            chapter: req.body.chapter,
+            cover: req.body.cover,
+        };
+        Fanfic.delete({'fanficChapters._id': req.body._id}, (err) => {
+            if(!err) {
+                res.json({success: true, message: 'success'})
             } else {
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }

@@ -29,7 +29,7 @@
           <mat-icon aria-label="Edit">edit</mat-icon>
         </button>
 
-        <button mat-icon-button color="accent" (click)="deleteItem(fanfic._id)">
+        <button mat-icon-button color="accent" (click)="this.deleteFanfic(fanfic)">
           <mat-icon aria-label="Delete">delete</mat-icon>
         </button>
       </mat-cell>
@@ -67,6 +67,11 @@
     <ng-container matColumnDef="chaptersCount">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Chapters count </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"> {{fanfic.fanficChapters.length}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="updatedAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Updated at </mat-header-cell>
+      <mat-cell *matCellDef="let fanfic">{{fanfic.updatedAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}} </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

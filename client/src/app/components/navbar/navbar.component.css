@@ -1,6 +1,18 @@
 .text-center {
-    text-justify: auto;
+  text-justify: auto;
 }
-.cursor {
+.cursor{
   cursor: pointer;
+}
+
+.home-size {
+  font-size: 14pt;
+}
+
+#dropdown {
+  cursor: pointer;
+}
+
+.dropdown-toggle {
+  cursor: pointer!important;
 }
