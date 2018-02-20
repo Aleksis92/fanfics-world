@@ -24,6 +24,8 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "@cloudinary/angular": "^2.1.1",
+    "@ngx-translate/core": "^9.1.1",
+    "@ngx-translate/http-loader": "^2.0.1",
     "@nicky-lenaers/ngx-scroll-to": "^0.6.0",
     "angular-datatables": "^5.0.0",
     "angular-froala-wysiwyg": "^2.7.5",
@@ -36,6 +38,8 @@
     "firebase": "^4.9.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
+    "ng2-inline-editor": "^0.1.1-alpha.20",
+    "ngx-chips": "^1.6.4",
     "ngx-md": "^3.1.1",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"

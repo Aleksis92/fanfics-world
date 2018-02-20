@@ -12,6 +12,7 @@ import { AngularFirestoreModule} from 'angularfire2/firestore';
 import { AngularFireStorageModule} from 'angularfire2/storage';
 import { AngularFireAuthModule} from 'angularfire2/auth';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
+import { InlineEditorModule } from 'ng2-inline-editor';
 
 import { environment} from '../environments/environment';
 
@@ -29,9 +30,12 @@ import { FanficComponent } from './components/profile/fanfic/fanfic.component';
 import { UserInfoComponent } from './components/profile/user-info/user-info.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { NewFanficComponent } from './components/profile/fanfic/new-fanfic/new-fanfic.component';
-import { EditFanficComponent } from './components/profile/fanfic/edit-fanfic/edit-fanfic.component';
+import { FanficEditorComponent } from './components/profile/fanfic/fanfic-editor/fanfic-editor.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { EditFanficComponent } from './components/profile/fanfic/fanfic-editor/edit-fanfic/edit-fanfic.component';
+import { EditChapterComponent } from './components/profile/fanfic/fanfic-editor/edit-chapter/edit-chapter.component';
+import { AddChapterComponent } from './components/profile/fanfic/fanfic-editor/add-chapter/add-chapter.component';
 
 import { DeleteUserDialogComponent } from './components/admin/dashboard/delete-user-dialog/delete-user-dialog.component';
 import { BlockUserDialogComponent } from './components/admin/dashboard/block-user-dialog/block-user-dialog.component';
@@ -40,8 +44,9 @@ import { RoleUserDialogComponent } from './components/admin/dashboard/role-user-
 import { DropZoneDirective } from './directives/drop-zone.directive';
 import { FileSizePipe } from './directives/file-size.pipe';
 
-import { AuthGuard} from './guards/auth.guard';
-import { NotAuthGuard} from './guards/notAuth.guard';
+import { AuthGuard } from './guards/auth.guard';
+import { NotAuthGuard } from './guards/notAuth.guard';
+import { AdminSerfGuard } from './guards/admin-serf.guard';
 
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatTableModule,
@@ -72,12 +77,15 @@ import { MatTableModule,
     FileUploadComponent,
     FileSizePipe,
     NewFanficComponent,
-    EditFanficComponent,
+    FanficEditorComponent,
     AdminComponent,
     DashboardComponent,
     DeleteUserDialogComponent,
     BlockUserDialogComponent,
     RoleUserDialogComponent,
+    EditFanficComponent,
+    EditChapterComponent,
+    AddChapterComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,14 +112,15 @@ import { MatTableModule,
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
-    ScrollToModule.forRoot()
+    ScrollToModule.forRoot(),
+    InlineEditorModule
   ],
   entryComponents: [
     DeleteUserDialogComponent,
     BlockUserDialogComponent,
     RoleUserDialogComponent,
   ],
-  providers: [AuthService, FanficService, UserService, AuthGuard, NotAuthGuard],
+  providers: [AuthService, FanficService, UserService, AuthGuard, NotAuthGuard, AdminSerfGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

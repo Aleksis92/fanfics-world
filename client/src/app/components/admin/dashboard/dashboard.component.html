@@ -3,14 +3,12 @@
   Admin dashboard
 </h2>
 
-<flash-messages></flash-messages>
-
 <table class="table" id="fanfics-table">
   <thead>
   <tr>
     <th scope="col" class="toolbar">
       <form>
-      <i class="pointer fa fa-2x fa-user-circle" [class.disabled]="this.selection.selected.length != 1" (click)="changeBlockStatus()"></i>
+      <i class="pointer fa fa-2x fa-user-circle viewer" [class.disabled]="this.selection.selected.length != 1" routerLink="/profile/info/:{{this.authService._id}}"></i>
       <i class="pointer fa fa-2x fa-low-vision" [class.disabled]="this.selection.selected.length == 0" (click)="changeUsersRole()"></i>
       <i class="pointer fa fa-2x fa-lock" [class.disabled]="this.selection.selected.length == 0" (click)="changeBlockStatus()"></i>
       <i class="pointer fa fa-2x fa-trash" [class.disabled]="this.selection.selected.length == 0" (click)="deleteUsers()"></i>

@@ -8,8 +8,11 @@ export class AuthService {
   domain = "http://localhost:3000";
   authToken;
   user;
+  admin;
+  _id;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,) {
     this.checkAuth()
   }
 
@@ -55,13 +58,20 @@ export class AuthService {
     }})
   }
 
+  getSerfProfile(_id) {
+    this.loadToken();
+    return this.httpClient.get(this.domain + '/authentication/profile/' + _id, { headers: {
+        'authorization': this.authToken, 'content-type': 'application/json'
+      }})
+  }
+
   loggedIn() {
     return tokenNotExpired();
   }
 
   isAdmin() {
-    if (this.user) {
-      if (this.user.role == "Admin") {
+    if (this.user || this.admin) {
+      if (this.user.role == "Admin" || this.admin.role == "Admin") {
         return true
       }
     }
@@ -84,6 +94,12 @@ export class AuthService {
       })
     }
   }
+
+  AdminSerfEnd() {
+        this.user = this.admin;
+        this.admin = undefined;
+    }
+
 
 }
 

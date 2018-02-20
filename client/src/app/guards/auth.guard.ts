@@ -1,6 +1,6 @@
-import { Injectable }       from '@angular/core';
-import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
-import { AuthService }      from '../services/auth.service';
+import { Injectable } from '@angular/core';
+import {CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute} from '@angular/router';
+import { AuthService } from '../services/auth.service';
 import {Observable} from 'rxjs/Observable';
 
 @Injectable()
@@ -10,7 +10,8 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -18,8 +19,8 @@ export class AuthGuard implements CanActivate {
     return this.authService.user.role
   }
 
-  canActivateAuth(router, state) {
-    const roles = router.data["roles"] as Array<string>;
+  canActivateAuth(route, state) {
+    const roles = route.data["roles"] as Array<string>;
     if(this.authService.loggedIn() && this.authService.isBlocked() && roles.indexOf(this.role) != -1) {
       return true;
     } else {
@@ -29,17 +30,24 @@ export class AuthGuard implements CanActivate {
     }
   }
 
+  reloadUserAuth(route, state) {
+    return this.authService.getProfile().map((data): boolean => {
+      this.authService.user = (<any>data).user;
+      return this.canActivateAuth(route, state)
+    })
+  }
+
   canActivate(
-    router: ActivatedRouteSnapshot,
+    route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | boolean {
+    if(this.authService.admin) {
+      this.authService.AdminSerfEnd()
+    }
     if (!this.authService.user && this.authService.loggedIn()) {
-    return this.authService.getProfile().map((data): boolean => {
-        this.authService.user = (<any>data).user;
-        return this.canActivateAuth(router, state)
-      })
+        return this.reloadUserAuth(route, state)
     } else {
-      return this.canActivateAuth(router, state)
+      return this.canActivateAuth(route, state)
     }
   }
 }

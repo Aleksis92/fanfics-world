@@ -177,15 +177,13 @@ module.exports = (router) => {
                    if (err.errors.email) {
                        res.json({success: false, message: err.errors.email.message})
                    } else {
-                       // Check if validation error is in the username field
                        if (err.errors.username) {
-                           res.json({success: false, message: err.errors.username.message}); // Return error
+                           res.json({success: false, message: err.errors.username.message});
                        } else {
-                           // Check if validation error is in the password field
                            if (err.errors.password) {
-                               res.json({success: false, message: err.errors.password.message}); // Return error
+                               res.json({success: false, message: err.errors.password.message});
                            } else {
-                               res.json({success: false, message: err}); // Return any other error not already covered
+                               res.json({success: false, message: err});
                            }
                        }
                    }
@@ -262,7 +260,6 @@ module.exports = (router) => {
                    }
                });
            }
-
        }
     });
 
@@ -329,6 +326,34 @@ module.exports = (router) => {
                     res.json({ success: false, message: 'User not found'})
                 } else {
                     res.json({ success: true, user: user})
+                }
+            }
+        })
+    });
+
+    router.get('/profile/:_id', (req, res) => {
+        let userProfile, adminProfile;
+        console.log(req.params._id.replace(":", ""));
+        User.findOne({ _id: req.params._id.replace(":", "")}).select('username email role photoUrl status').exec((err, user) => {
+            if (err) {
+                res.json({ success: false, message: err});
+            } else {
+                if (!user) {
+                    res.json({ success: false, message: 'User not found'})
+                } else {
+                    userProfile = user;
+                    User.findOne({ _id: req.decoded.userId}).select('username email role photoUrl status').exec((err, admin) => {
+                        if(err) {
+                            res.json({ success: false, message: err});
+                        } else {
+                            if(!admin) {
+                                res.json({ success: false, message: 'Admin not found'})
+                            } else {
+                                adminProfile = admin;
+                                res.json({ success: true, user: userProfile, admin: adminProfile})
+                            }
+                        }
+                    })
                 }
             }
         })

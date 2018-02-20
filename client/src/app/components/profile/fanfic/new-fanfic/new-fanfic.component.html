@@ -26,7 +26,7 @@
   </div>
   <div class="form-group">
     <label for="genre">Genre</label>
-    <div [ngClass]="{'has-error': (form.controls.genre.errors && form.controls.genre.dirty), 'has-success': !form.controls.genre.errors}">
+    <div>
       <select class="form-control" name="genre" formControlName="genre">
         <option>Anime</option>
         <option>Movie</option>
@@ -34,9 +34,6 @@
         <option>Comics</option>
         <option>Manga</option>
       </select>
-      <ul class="help-block">
-        <li *ngIf="form.controls.genre.errors?.required && form.controls.genre.dirty">This field is required</li>
-      </ul>
     </div>
   </div>
   <div class="form-group">
@@ -57,5 +54,5 @@
       </ul>
     </div>
   </div>-->
-  <input type="submit" class="btn btn-primary" value="Create fanfic" [ngx-scroll-to]="'fanfics-table'" />
+  <input [disabled]="this.form.invalid || this.fanficService.coverRefresh == false" type="submit" class="btn btn-primary" value="Create fanfic" [ngx-scroll-to]="'top'" />
 </form>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FanficService } from '../../../services/fanfic.service';
 import { AuthService } from '../../../services/auth.service';
@@ -7,11 +7,14 @@ import { MatDialog, MatPaginator, MatSort } from '@angular/material';
 import { DataSource, SelectionModel } from '@angular/cdk/collections';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ActivatedRoute } from '@angular/router';
+import { FlashMessagesService } from 'angular2-flash-messages';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+
 
 
 @Component({
@@ -20,11 +23,11 @@ import 'rxjs/add/operator/distinctUntilChanged';
   styleUrls: ['./fanfic.component.css']
 })
 
-export class FanficComponent implements OnInit {
+export class FanficComponent implements OnInit, OnDestroy {
 
   allUserFanfics: FanficService;
 
-  displayedColumns = ['select', 'title', 'description', 'cover', 'genre', 'tags'];
+  displayedColumns = ['actions', 'title', 'description', 'cover', 'genre', 'tags', 'chaptersCount'];
   selection = new SelectionModel<UserFanfics>(true, []);
   dataSource: FanficDataSource | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -36,13 +39,16 @@ export class FanficComponent implements OnInit {
     private authService: AuthService,
     private fanficService: FanficService,
     private dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private flashMessagesService: FlashMessagesService
   ) {
-    this.toggleListener();
-    this.NewFanficListener();
   }
 
   ngOnInit() {
     this.loadData();
+    Promise.resolve().then(() => this.newFanficListener());
+    Promise.resolve().then( () => this.editFanficListener());
+    this.editChapterListener()
   }
 
   refresh() {
@@ -73,7 +79,7 @@ export class FanficComponent implements OnInit {
 
   public loadData() {
     this.allUserFanfics = new FanficService(this.httpClient, this.authService);
-    this.dataSource = new FanficDataSource(this.allUserFanfics, this.paginator, this.sort);
+    this.dataSource = new FanficDataSource(this.allUserFanfics, this.paginator, this.sort, this.authService);
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
       .debounceTime(150)
       .distinctUntilChanged()
@@ -85,36 +91,56 @@ export class FanficComponent implements OnInit {
       });
   }
 
-  toggleListener() {
-    this.selection.onChange.subscribe((changeFanfics) => {
-      if (changeFanfics.added[0])   // will be undefined if no selection
-      {
-        console.log(this.selection.selected)
-      }
-    });
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource._allUserFanfic.data.length;
-    return numSelected == numRows;
-  }
-
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.dataSource._allUserFanfic.data.forEach(row => this.selection.select(row));
-  }
-
-  NewFanficListener() {
+  newFanficListener() {
     this.fanficService.newFanfic.subscribe(data => {
       if (data) {
-
         this.allUserFanfics.dataChange.value.push(<any>data);
         this.refreshTable();
       }
     })
   }
+
+  editFanficListener() {
+    this.fanficService.editFanfic.subscribe(data => {
+      if (data) {
+        const foundIndex = this.allUserFanfics.dataChange.value.findIndex(users => users._id === this.fanficService.currentFanfic._id);
+        this.allUserFanfics.dataChange.value[foundIndex] = <any>data;
+        this.allUserFanfics.dataChange.value[foundIndex].chaptersCount = (<any>data).fanficChapters.length;
+        this.fanficService.currentFanfic = <any>data;
+        this.refreshTable();
+      }
+    })
+  }
+
+  editChapterListener() {
+    this.fanficService.editChapter.subscribe(data => {
+      if (data) {
+        const fanficIndex = this.allUserFanfics.dataChange.value.findIndex(users => users._id === this.fanficService.currentFanfic._id);
+        const chapterIndex = (<any>this.allUserFanfics.dataChange.value[fanficIndex]).fanficChapters.findIndex(users => users._id === this.fanficService.currentChapter._id);
+        (<any>this.allUserFanfics.dataChange.value[fanficIndex]).fanficChapters[chapterIndex] = data;
+        this.fanficService.currentFanfic = this.allUserFanfics.dataChange.value[fanficIndex];
+        this.refreshTable();
+      }
+    })
+  }
+
+  displayEditUser(data) {
+    if(data.message == "success") {
+      this.refreshTableMessanger('Selected user successful edited to  ', "alert-success")
+    } else {
+      this.refreshTableMessanger('Error', 'alert-danger')
+    }
+  }
+
+  refreshTableMessanger(message: string, cssClass : string) {
+    this.refreshTable();
+    this.flashMessagesService.show(message, { cssClass: cssClass});
+  }
+
+  ngOnDestroy(): void {
+    this.fanficService.fanficEditorVisible = false;
+  }
+
 }
 
 export class FanficDataSource extends DataSource<UserFanfics> {
@@ -133,7 +159,8 @@ export class FanficDataSource extends DataSource<UserFanfics> {
 
   constructor(public _allUserFanfic: FanficService,
               public _paginator: MatPaginator,
-              public _sort: MatSort) {
+              public _sort: MatSort,
+              public _authService: AuthService) {
     super();
     // Reset to the first page when the user changes the filter.
     this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
@@ -149,7 +176,7 @@ export class FanficDataSource extends DataSource<UserFanfics> {
       this._paginator.page
     ];
 
-    this._allUserFanfic.getAllUserFanfics();
+    this._allUserFanfic.getAllUserFanfics(this._authService.user);
 
     return Observable.merge(...displayDataChanges).map(() => {
       // Filter data
@@ -188,6 +215,7 @@ export class FanficDataSource extends DataSource<UserFanfics> {
         case 'cover': [propertyA, propertyB] = [a.cover, b.cover]; break;
         case 'genre': [propertyA, propertyB] = [a.genre, b.genre]; break;
         case 'tags': [propertyA, propertyB] = [a.tags, b.tags]; break;
+        case 'chaptersCount': [propertyA, propertyB] = [a.chaptersCount, b.chaptersCount]; break;
       }
 
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

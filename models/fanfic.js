@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
+const chapterSchema = new Schema({
+    title: {type: String, required: false, unique: false},
+    chapter: {type: String, required: false, unique: false},
+    cover: {type: String, required: false, unique: false},
+})
+
 const fanficSchema = new Schema({
     title: {type: String, required: false, unique: false},
     description: {type: String, required: false, unique: false},
@@ -12,11 +18,10 @@ const fanficSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    fanficChapters: [{
-        title: {type: String, required: false, unique: false},
-        chapter: {type: String, required: false, unique: false},
-    }]
+    fanficChapters: [chapterSchema]
 });
 
+fanficSchema.set('autoIndex', false);
+chapterSchema.set('autoIndex', false);
 
 module.exports = mongoose.model('Fanfic', fanficSchema);

@@ -9,8 +9,16 @@ export class FanficService {
 
   dataChange: BehaviorSubject<UserFanfics[]> = new BehaviorSubject<UserFanfics[]>([]);
   newFanfic = new BehaviorSubject('');
+  editFanfic = new BehaviorSubject('');
+  editChapter = new BehaviorSubject('');
   newFanficVisible = false;
-  editFanficVisible = false;
+  fanficEditorVisible = false;
+  addChapterVisible;
+  editFanficVisible;
+  editChapterVisible;
+  currentChapter;
+  currentFanfic;
+  coverRefresh;
 
 
   domain = "http://localhost:3000";
@@ -23,18 +31,20 @@ export class FanficService {
 
   newFanficToggle() {
     if (this.newFanficVisible) {
+      setTimeout(() => {
       this.newFanficVisible = false;
+      }, 500)
     } else {
       this.newFanficVisible = true;
+      this.fanficEditorVisible = false;
     }
   }
 
-  editFanficToggle() {
-    if (this.editFanficVisible) {
-      this.editFanficVisible = false;
-    } else {
-      this.editFanficVisible = true;
-    }
+  fanficEditorOpen(fanfic) {
+    this.currentFanfic = fanfic;
+    this.fanficEditorVisible = true;
+    this.newFanficVisible = false;
+    this.defaultFanficEditorConfig()
   }
 
   get data(): UserFanfics[] {
@@ -42,20 +52,19 @@ export class FanficService {
   }
 
   createFanficTitle(fanficTitle) {
-    return this.httpClient.post(this.domain + '/fanfic/saveFanfic', fanficTitle , { headers: {
+    return this.httpClient.post(this.domain + '/fanfic/save/fanfic', fanficTitle , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
-      }}).subscribe(data => {
-      if ((<any>data).message !== "success") {
-        console.log('fail')
-      } else {
-        console.log('success');
-        this.newFanfic.next(JSON.parse((<any>data).fanfic))
-      }
-    });
+      }})
   }
 
-  getAllUserFanfics() {
-    return this.httpClient.get(this.domain + '/fanfic/allUserFanfics' , { headers: {
+  updateFanficTitle(fanficTitle) {
+    return this.httpClient.post(this.domain + '/fanfic/update/fanficTitle', fanficTitle , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }})
+  }
+
+  getAllUserFanfics(_id) {
+    return this.httpClient.post(this.domain + '/fanfic/get/allUserFanfics' , _id, { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }}).subscribe(data => {
       this.dataChange.next(JSON.parse((<any>data).fanfics));
@@ -65,10 +74,22 @@ export class FanficService {
       })
   }
 
-  addChapter(chapter) {
+  addFanficChapter(chapter) {
     return this.httpClient.post(this.domain + '/fanfic/save/fanficChapter', chapter , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }});
+  }
+
+  editFanficChapter(chapter) {
+    return this.httpClient.post(this.domain + '/fanfic/update/fanficChapter', chapter , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }});
+  }
+
+  defaultFanficEditorConfig() {
+    this.editFanficVisible = false;
+    this.editChapterVisible = false;
+    this.addChapterVisible =true;
   }
 
 }

@@ -1,0 +1,19 @@
+<h2>Fanfic editor</h2>
+
+<table class="table" id="fanfics-table">
+  <thead>
+  <tr>
+    <th scope="col" class="toolbar">
+      <a class="pointer fa fa-2x fa-edit" (click)="this.toggler('editFanfic')" ngx-scroll-to="editFanficTop"></a>
+      <a class="pointer fa fa-2x fa-pencil" [class.disabled]="this.fanficService.currentFanfic.fanficChapters.length == 0" (click)="this.toggler('editChapter')"  ngx-scroll-to="editChapterTop"></a>
+      <a class="pointer fa fa-2x fa-plus" (click)="this.toggler('addChapter')"  ngx-scroll-to="addChapterTop"></a>
+      <a class="pointer fa fa-2x fa-trash" [class.disabled]="this.fanficService.editFanficVisible || this.fanficService.addChapterVisible"></a>
+      <a class="pointer fa fa-2x fa-times" [ngx-scroll-to]="'top'" (click)="this.fanficEditorToggle(this.fanficService.currentFanfic)"></a>
+    </th>
+  </tr>
+  </thead>
+</table>
+
+<add-chapter *ngIf="this.fanficService.addChapterVisible" id="addChapterTop"></add-chapter>
+<edit-chapter *ngIf="this.fanficService.editChapterVisible" id="editChapterTop"></edit-chapter>
+<edit-fanfic *ngIf="this.fanficService.editFanficVisible"  id="editFanficTop"></edit-fanfic>

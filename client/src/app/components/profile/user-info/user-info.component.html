@@ -5,6 +5,9 @@
 
 <ul class="list-group">
   <li class="list-group-item">Username: {{ this.authService.user.username }}</li>
-  <li class="list-group-item">Email: {{ this.authService.user.email}}</li>
+  <li class="list-group-item">
+    <div>
+      Email: <inline-editor type="text" [(ngModel)]="email" (onSave)="saveEditable($event)" name="email" size="8"></inline-editor>
+    </div></li>
   <li class="list-group-item"><img src="{{ this.authService.user.photoUrl }}"></li>
 </ul>

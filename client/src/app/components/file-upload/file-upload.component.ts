@@ -3,6 +3,7 @@ import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage'
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { tap } from 'rxjs/operators';
+import {FanficService} from '../../services/fanfic.service';
 
 @Component({
   selector: 'file-upload',
@@ -19,7 +20,10 @@ export class FileUploadComponent {
   downloadURL: Observable<string>;
   // State for dropzone CSS toggling
   isHovering: boolean;
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore) { }
+  constructor(
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private fanficService: FanficService) { }
 
   toggleHover(event: boolean) {
     this.isHovering = event;
@@ -42,6 +46,7 @@ export class FileUploadComponent {
     this.percentage = this.task.percentageChanges();
     this.snapshot   = this.task.snapshotChanges();
     // The file's download URL
+    this.fanficService.coverRefresh = true;
     this.downloadURL = this.task.downloadURL();
   }
   // Determines if the upload task is active

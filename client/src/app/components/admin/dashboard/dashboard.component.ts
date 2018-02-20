@@ -191,7 +191,7 @@ export class DashboardComponent implements OnInit {
     this.selection.onChange.subscribe((changeFanfics) => {
       if (changeFanfics.added[0])   // will be undefined if no selection
       {
-        console.log(this.selection.selected)
+        this.authService._id = (<any>this.selection.selected[0])._id;
       }
     });
   }

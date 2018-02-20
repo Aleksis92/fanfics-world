@@ -3,7 +3,7 @@ import { AuthService } from '../../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUploadComponent } from '../../../file-upload/file-upload.component';
 import { FanficService } from '../../../../services/fanfic.service';
-
+import {FlashMessagesService} from 'angular2-flash-messages';
 
 @Component({
   selector: 'new-fanfic',
@@ -12,14 +12,14 @@ import { FanficService } from '../../../../services/fanfic.service';
 })
 export class NewFanficComponent implements OnInit {
 
-  newFanfic = false;
   @ViewChild(FileUploadComponent) fileUploadComponent;
   form: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private fanficService: FanficService
+    private fanficService: FanficService,
+    private flashMessagesService: FlashMessagesService
   ) {
     this.createForm();
   }
@@ -31,8 +31,8 @@ export class NewFanficComponent implements OnInit {
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['', Validators.required],
-      cover: ['', Validators.required],
-      genre: ['Movie', Validators.required],
+      cover: [''],
+      genre: ['Movie'],
       tags: ['', Validators.required],
       //fanfic: ['', Validators.required]
     })
@@ -45,9 +45,21 @@ export class NewFanficComponent implements OnInit {
       cover: this.fileUploadComponent.downloadURL.value,
       genre: this.form.get('genre').value,
       tags: this.form.get('tags').value,
+      createdBy: this.authService.user
       //fanfic: this.form.get('fanfic').value
     };
+    this.saveFanfic(fanficTitle)
+  }
+
+  saveFanfic(fanficTitle) {
     this.fanficService.newFanficToggle();
-    this.fanficService.createFanficTitle(fanficTitle);
+    this.fanficService.createFanficTitle(fanficTitle).subscribe(data => {
+      if ((<any>data).message !== "success") {
+        this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
+      } else {
+        this.flashMessagesService.show('New fanfic successful added', {cssClass: 'alert-success'});
+        this.fanficService.newFanfic.next(JSON.parse((<any>data).fanfic))
+      }
+    });
   }
 }

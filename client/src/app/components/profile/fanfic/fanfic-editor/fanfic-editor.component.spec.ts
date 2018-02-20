@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditFanficComponent } from './edit-fanfic.component';
+import { FanficEditorComponent } from './fanfic-editor.component';
 
 describe('EditFanficComponent', () => {
-  let component: EditFanficComponent;
-  let fixture: ComponentFixture<EditFanficComponent>;
+  let component: FanficEditorComponent;
+  let fixture: ComponentFixture<FanficEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditFanficComponent ]
+      declarations: [ FanficEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditFanficComponent);
+    fixture = TestBed.createComponent(FanficEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
