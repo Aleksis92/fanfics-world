@@ -1,0 +1,40 @@
+<h2>Edit chapters</h2>
+
+<div class="btn-toolbar" role="toolbar">
+  <div class="btn-group" role="group">
+    <button *ngFor="let chapter of this.fanficService.currentFanfic.fanficChapters" type="button" class="btn btn-light"
+            (click)="showSelectChapter(chapter._id)">{{chapter.title}}
+    </button>
+  </div>
+</div>
+
+<form [formGroup]="editChapterForm" (submit)="onEditChapterSubmit()">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div
+      [ngClass]="{'form-control-danger': (editChapterForm.controls.title.errors && editChapterForm.controls.title.dirty), 'form-control-success': !editChapterForm.controls.title.errors}">
+      <input type="text" name="title" class="form-control" autocomplete="off" placeholder="*Title" [value]="this.fanficService.currentChapter.title"
+             formControlName="title"/>
+      <ul class="help-block">
+        <li *ngIf="editChapterForm.controls.title.errors?.required && editChapterForm.controls.title.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-group">
+      <label for="cover">Cover</label>
+      <file-upload></file-upload>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="chapter">Chapter</label>
+    <div
+      [ngClass]="{'has-error': (editChapterForm.controls.chapter.errors && editChapterForm.controls.chapter.dirty), 'has-success': !editChapterForm.controls.chapter.errors}">
+      <textarea [froalaEditor]="froalaOptions" name="chapter" class="form-control" formControlName="chapter"></textarea>
+      <ul class="help-block">
+        <li *ngIf="editChapterForm.controls.chapter.errors?.required && editChapterForm.controls.chapter.dirty">This field is required</li>
+      </ul>
+    </div>
+  </div>
+  <input type="submit" [disabled]="!editChapterForm.valid" ngx-scroll-to="navbar" class="btn btn-primary" value="Edit chapter"/>
+</form>

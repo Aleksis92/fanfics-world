@@ -1,0 +1,35 @@
+<h2>Add chapters</h2>
+<form [formGroup]="addChapterForm" (submit)="onAddChapterSubmit()">
+  <div class="form-group">
+    <label for="title">Title</label>
+    <div
+      [ngClass]="{'form-control-danger': (addChapterForm.controls.title.errors && addChapterForm.controls.title.dirty), 'form-control-success': !addChapterForm.controls.title.errors}">
+      <input type="text" name="title" class="form-control" autocomplete="off" placeholder="*Title"
+             formControlName="title"/>
+      <ul class="help-block">
+        <li *ngIf="addChapterForm.controls.title.errors?.required && addChapterForm.controls.title.dirty">This field is
+          required
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="form-group">
+      <label for="cover">Cover(optional)</label>
+      <file-upload></file-upload>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="chapter">Chapter</label>
+    <div
+      [ngClass]="{'has-error': (addChapterForm.controls.chapter.errors && addChapterForm.controls.chapter.dirty), 'has-success': !addChapterForm.controls.chapter.errors}">
+      <textarea [froalaEditor]="froalaOptions" name="chapter" class="form-control" formControlName="chapter"></textarea>
+      <ul class="help-block">
+        <li *ngIf="addChapterForm.controls.chapter.errors?.required && addChapterForm.controls.chapter.dirty">This field
+          is required
+        </li>
+      </ul>
+    </div>
+  </div>
+  <input type="submit" [disabled]="!addChapterForm.valid" ngx-scroll-to="navbar" class="btn btn-primary" value="Add chapter"/>
+</form>

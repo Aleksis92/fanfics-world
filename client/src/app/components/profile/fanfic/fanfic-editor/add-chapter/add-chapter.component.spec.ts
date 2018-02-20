@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddFanficDialogComponent } from './add-fanfic-dialog.component';
+import { AddChapterComponent } from './add-chapter.component';
 
-describe('AddFanficDialogComponent', () => {
-  let component: AddFanficDialogComponent;
-  let fixture: ComponentFixture<AddFanficDialogComponent>;
+describe('AddChapterComponent', () => {
+  let component: AddChapterComponent;
+  let fixture: ComponentFixture<AddChapterComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AddFanficDialogComponent ]
+      declarations: [ AddChapterComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddFanficDialogComponent);
+    fixture = TestBed.createComponent(AddChapterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
