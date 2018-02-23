@@ -15,8 +15,7 @@
     </mat-form-field>
   </div>
   <mat-table #table [dataSource]="dataSource" matSort  class="mat-cell">
-    <!--- Note that these columns can be defined in any order.
-          The actual rendered columns are set as a property on the row definition" -->
+
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>
         <button mat-icon-button color="primary" (click)="this.fanficService.newFanficToggle()" [ngx-scroll-to]="'new-fanfic'">
@@ -61,12 +60,16 @@
 
     <ng-container matColumnDef="tags">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Tags </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.tags}} </mat-cell>
+      <mat-cell *matCellDef="let fanfic">
+        <mat-chip-list>
+          <mat-chip *ngFor="let tag of fanfic.tags">{{tag.display}}</mat-chip>
+        </mat-chip-list>
+      </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="chaptersCount">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Chapters count </mat-header-cell>
-      <mat-cell *matCellDef="let fanfic"> {{fanfic.fanficChapters.length}} </mat-cell>
+      <mat-cell *matCellDef="let fanfic"> {{fanfic.fanficChapters.length}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="updatedAt">

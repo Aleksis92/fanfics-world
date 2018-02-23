@@ -4,7 +4,7 @@ export interface UserFanfics {
   description: string;
   cover: string;
   genre: string;
-  tags: string;
+  tags: any;
   chaptersCount: number;
   updatedAt: string;
   createdAt: string;

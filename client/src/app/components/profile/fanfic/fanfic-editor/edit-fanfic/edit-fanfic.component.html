@@ -42,7 +42,16 @@
   <div class="form-group">
     <label for="tags">Tags</label>
     <div [ngClass]="{'has-error': (editFanficForm.controls.tags.errors && editFanficForm.controls.tags.dirty), 'has-success': !editFanficForm.controls.tags.errors}">
-      <input type="text" name="tags" class="form-control" autocomplete="on" formControlName="tags"/>
+      <tag-input (onAdd)="onTagAdd($event)"
+                 (onRemove)="onTagRemove($event)"
+                 [ngModel]="tagsObject"
+                 [formControlName]="'tags'"
+                 name="items"
+                 [addOnBlur]="true"
+                 [clearOnBlur]="true">
+        <tag-input-dropdown [autocompleteItems]="this.fanficService.cloudTags">
+        </tag-input-dropdown>
+      </tag-input>
       <ul class="help-block">
         <li *ngIf="editFanficForm.controls.tags.errors?.required && editFanficForm.controls.tags.dirty">This field is required</li>
       </ul>

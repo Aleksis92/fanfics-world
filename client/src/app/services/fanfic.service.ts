@@ -13,12 +13,14 @@ export class FanficService {
   editChapter = new BehaviorSubject('');
   newFanficVisible = false;
   fanficEditorVisible = false;
+  cloudTags = [];
   addChapterVisible;
   editFanficVisible;
   editChapterVisible;
   currentChapter;
   currentFanfic;
   coverRefresh;
+  readableMode = false;
 
 
   domain = "http://localhost:3000";
@@ -42,6 +44,7 @@ export class FanficService {
 
   fanficEditorOpen(fanfic) {
     this.currentFanfic = fanfic;
+    this.fanficEditorVisible = false;
     this.fanficEditorVisible = true;
     this.newFanficVisible = false;
     this.defaultFanficEditorConfig()
@@ -49,8 +52,8 @@ export class FanficService {
 
   defaultFanficEditorConfig() {
     this.editFanficVisible = false;
-    this.editChapterVisible = true;
-    this.addChapterVisible = false;
+    this.editChapterVisible = false;
+    this.addChapterVisible = true;
   }
 
   get data(): UserFanfics[] {
@@ -88,15 +91,14 @@ export class FanficService {
       }});
   }
 
-  deleteChapterHTTP(_id) {
-    const fanfic = {_id: _id};
-    return this.httpClient.post(this.domain + '/fanfic/delete/fanficTitle', fanfic , { headers: {
+  deleteChapterHTTP(chapter) {
+    return this.httpClient.post(this.domain + '/fanfic/delete/fanficChapter', chapter , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }});
   }
 
   getAllUserFanfics(_id) {
-    return this.httpClient.post(this.domain + '/fanfic/get/allUserFanfics' , _id, { headers: {
+    return this.httpClient.post(this.domain + '/fanfic/get/allUserFanfics', _id, { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }}).subscribe(data => {
         this.dataChange.next(JSON.parse((<any>data).fanfics));
@@ -104,6 +106,43 @@ export class FanficService {
       (error: HttpErrorResponse) => {
         console.log(error.name + ' ' + error.message)
       })
+  }
+
+  getCloudTagsHTTP() {
+    this.httpClient.get(this.domain + '/fanfic/get/allTags', { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }}).subscribe(data => {
+        this.cloudTags = [];
+        for(let tag of JSON.parse((<any>data).tags)) {
+          this.cloudTags.push(tag.value);
+        }
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message)
+      });
+  }
+
+  modifyCloudTagHTTP(modifyArray) {
+    this.httpClient.post(this.domain + '/fanfic/update/cloudTags', modifyArray, { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }}).subscribe(data => {
+        console.log('success modify cloudTag');
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.name + ' ' + error.message)
+      })
+  }
+
+  getLastUpdatedFanficsHTTP() {
+    return this.httpClient.get(this.domain + '/fanfic/get/lastUpdatedFanfic', { headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }})
+  }
+
+  getReadableFanficHTTP(_id) {
+    return this.httpClient.get(this.domain + '/fanfic/get/readableFanfic/:' + _id, { headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }})
   }
 
 }

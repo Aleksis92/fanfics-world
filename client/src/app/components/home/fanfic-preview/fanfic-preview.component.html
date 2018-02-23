@@ -1,0 +1,20 @@
+<div class="card card-custom">
+  <img class="card-img-top img-size" src="{{fanfic.cover}}">
+  <div class="card-body">
+    <a routerLink="reader/:{{fanfic._id}}"><h4 class="card-title">{{fanfic.title}}</h4></a>
+    <p class="card-text">{{fanfic.description}}</p>
+  </div>
+  <div class="card-footer text-muted">
+    <strong>{{'PREVIEW.GENRE' | translate}}: </strong>{{fanfic.genre}}
+    <br/>
+    <strong>{{'PREVIEW.TAGS' | translate}}: </strong>
+    <mat-chip *ngFor="let tag of fanfic.tags">{{tag.display}}</mat-chip>
+    <br/>
+    <strong>{{'PREVIEW.AUTHOR' | translate}}: </strong>{{fanfic.createdBy.username}}
+    <br/>
+    <strong>{{'PREVIEW.DATE' | translate}}: </strong>{{fanfic.createdAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}}
+    <br/>
+  </div>
+
+</div>
+

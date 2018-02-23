@@ -1,0 +1,24 @@
+.pointer {
+  cursor: pointer;
+  border-bottom: 1px solid slategray;
+  padding-bottom: 3px;
+  font-size: 12pt;
+}
+
+.disabled {
+  pointer-events: none!important;
+  cursor: default!important;
+  color: lightgray!important;
+}
+
+.fullscreen {
+  height: 100%!important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0!important;
+  padding: 0!important;
+}
+
+.fade-fullscreen {
+  padding: 0!important;
+}

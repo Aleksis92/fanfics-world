@@ -26,7 +26,7 @@ export class FanficEditorComponent implements OnInit{
   ) {}
 
   ngOnInit(): void {
-    this.changeVisible(false, false, true);
+    this.changeVisible(true, false, false);
   }
 
   toggler (togglable: string) {
@@ -62,6 +62,13 @@ export class FanficEditorComponent implements OnInit{
     }
   }
 
+  fanficEditorOpen(fanfic) {
+    this.fanficService.currentFanfic = fanfic;
+    this.fanficService.fanficEditorVisible = true;
+    this.fanficService.newFanficVisible = false;
+    this.changeVisible(true, false, false);
+}
+
   changeVisible (addChapter, editFanfic, editChapter) {
     this.fanficService.addChapterVisible = addChapter;
     this.fanficService.editFanficVisible = editFanfic;
@@ -69,7 +76,7 @@ export class FanficEditorComponent implements OnInit{
   }
 
   chapterDelete(chapter) {
-    this.fanficService.deleteChapterHTTP(chapter._id).subscribe(data => {
+    this.fanficService.deleteChapterHTTP(chapter).subscribe(data => {
       if ((<any>data).success) {
         const foundIndex = this.fanficService.currentFanfic.fanficChapters.findIndex(chapterArray => chapterArray._id === chapter._id );
         this.fanficService.currentFanfic.fanficChapters.splice(foundIndex, 1);

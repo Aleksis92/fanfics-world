@@ -9,6 +9,7 @@ export class AuthService {
   authToken;
   user;
   admin;
+  isAdmin;
   _id;
 
   constructor(
@@ -37,8 +38,10 @@ export class AuthService {
   }
 
   logout() {
-    this.authToken = null;
-    this.user = null;
+    this.authToken = undefined;
+    this.user = undefined;
+    this.admin = undefined;
+    this.isAdmin = false;
     localStorage.removeItem('token');
   }
 
@@ -49,6 +52,9 @@ export class AuthService {
 
   storeUserData(user) {
     this.user = user;
+    if(user.role = "Admin") {
+      this.isAdmin = true;
+    }
   }
 
   getProfile() {
@@ -67,15 +73,6 @@ export class AuthService {
 
   loggedIn() {
     return tokenNotExpired();
-  }
-
-  isAdmin() {
-    if (this.user || this.admin) {
-      if (this.user.role == "Admin" || this.admin.role == "Admin") {
-        return true
-      }
-    }
-    return false;
   }
 
   isBlocked() {

@@ -1,1 +1,10 @@
-{{'HELLO' | translate}}
+<h3>{{'HELLO' | translate}}</h3>
+<h3>{{'HOME.LATEST' | translate}}</h3>
+<mat-chip-list></mat-chip-list>
+<div class="container-fluid">
+  <div class="row">
+    <div *ngFor="let fanfic of lastUpdatedFanfic" class="col-12 col-md-6 col-lg-4">
+      <fanfic-preview  [fanfic]="fanfic"></fanfic-preview>
+    </div>
+  </div>
+</div>

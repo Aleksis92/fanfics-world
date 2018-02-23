@@ -3,7 +3,8 @@ import { AuthService } from '../../../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUploadComponent } from '../../../file-upload/file-upload.component';
 import { FanficService } from '../../../../services/fanfic.service';
-import {FlashMessagesService} from 'angular2-flash-messages';
+import { FlashMessagesService } from 'angular2-flash-messages';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'new-fanfic',
@@ -11,6 +12,9 @@ import {FlashMessagesService} from 'angular2-flash-messages';
   styleUrls: ['./new-fanfic.component.css']
 })
 export class NewFanficComponent implements OnInit {
+
+  autocompleteItems = [];
+  tagCloudModify = [];
 
   @ViewChild(FileUploadComponent) fileUploadComponent;
   form: FormGroup;
@@ -25,6 +29,8 @@ export class NewFanficComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fanficService.getCloudTagsHTTP();
+    this.tagCloudModify = [];
     this.fanficService.coverRefresh = false;
   }
 
@@ -34,33 +40,50 @@ export class NewFanficComponent implements OnInit {
       description: ['', Validators.required],
       cover: [''],
       genre: ['Movie'],
-      tags: ['', Validators.required],
-      //fanfic: ['', Validators.required]
+      tags: [['tag'], []],
     })
   }
 
   onNewFanficSubmit() {
-    const fanficTitle = {
+    this.saveFanfic(this.titleFormBuild())
+  }
+
+  saveFanfic(fanficTitle) {
+    this.fanficService.newFanficToggle();
+    fanficTitle.tagCloud = this.tagCloudModify;
+    this.tagCloudModify = [];
+    this.fanficService.createFanficTitleHTTP(fanficTitle).subscribe(data => {
+      this.addFanficHTTP(data);
+    });
+  }
+
+  titleFormBuild() {
+    return {
       title: this.form.get('title').value,
       description: this.form.get('description').value,
       cover: this.fileUploadComponent.downloadURL.value,
       genre: this.form.get('genre').value,
       tags: this.form.get('tags').value,
       createdBy: this.authService.user
-      //fanfic: this.form.get('fanfic').value
     };
-    this.saveFanfic(fanficTitle)
   }
 
-  saveFanfic(fanficTitle) {
-    this.fanficService.newFanficToggle();
-    this.fanficService.createFanficTitleHTTP(fanficTitle).subscribe(data => {
-      if (!(<any>data).success) {
-        this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
-      } else {
-        this.flashMessagesService.show('New fanfic successful added', {cssClass: 'alert-success'});
-        this.fanficService.newFanfic.next(JSON.parse((<any>data).fanfic))
-      }
-    });
+  addFanficHTTP(data) {
+    if (!(<any>data).success) {
+      this.flashMessagesService.show('Error', {cssClass: 'alert-danger'})
+    } else {
+      this.flashMessagesService.show('New fanfic successful added', {cssClass: 'alert-success'});
+      this.fanficService.newFanfic.next(JSON.parse((<any>data).fanfic))
+    }
   }
+
+  onTagAdd(tag) {
+    tag.action = 'add';
+    this.tagCloudModify.push(tag)
+  }
+
+  onTagRemove(tag) {
+    this.tagCloudModify.splice(this.tagCloudModify.indexOf(tag),1)
+  }
+
 }

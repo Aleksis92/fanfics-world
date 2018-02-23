@@ -1,0 +1,15 @@
+.card-custom {
+  height: 100% !important;
+  margin-bottom: 15px!important;
+}
+.img-size {
+  min-height: 210px;
+}
+
+.mat-chip:not(.mat-basic-chip) + .mat-chip:not(.mat-basic-chip) {
+  margin: 0!important;
+}
+mat-chip-list {
+  margin: 0!important;
+  padding: 0!important;
+}

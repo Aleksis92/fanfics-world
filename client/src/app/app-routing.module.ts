@@ -12,11 +12,16 @@ import { DashboardComponent } from './components/admin/dashboard/dashboard.compo
 import { AdminComponent } from './components/admin/admin.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { AdminSerfGuard } from './guards/admin-serf.guard';
+import { ReaderComponent } from './components/reader/reader.component';
 
 const appRoutes: Routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: 'reader/:_id',
+    component: ReaderComponent,
   },
   {
     path: 'register',

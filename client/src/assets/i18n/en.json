@@ -1,7 +1,28 @@
 {
-  "HELLO": "Home",
+  "HELLO": "Welcome to the fanfic world!",
   "NAVBAR" : {
     "PROMO": "Fanfics-world",
-    "LANG": "Language"
+    "LANG": "Language",
+    "DASHBOARD": "Dashboard",
+    "REGISTER": "Register",
+    "LOGIN": "Login",
+    "PROFILE": "Profile",
+    "INFO": "Info",
+    "FANFICS": "Fanfics",
+    "LOGOUT": "Logout",
+    "SEARCH": "Search"
+  },
+  "HOME": {
+    "LATEST": "Latest update fanfics"
+  },
+  "PREVIEW": {
+    "GENRE": "Genre",
+    "TAGS": "Tags",
+    "AUTHOR": "Author",
+    "DATE": "Date",
+    "RATING": "Rating"
+  },
+  "READER": {
+    "MODE": "Read mode"
   }
 }

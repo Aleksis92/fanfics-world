@@ -7,22 +7,22 @@
 
     <div class="collapse navbar-collapse" id="navbarCollapsed">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item" *ngIf="authService.loggedIn() && authService.isAdmin()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" routerLink="/admin/dashboard">Dashboard</a>
+        <li class="nav-item" *ngIf="authService.loggedIn() && authService.isAdmin" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
+          <a class="nav-link" routerLink="/admin/dashboard">{{'NAVBAR.DASHBOARD' | translate}}</a>
         </li>
         <li class="nav-item" *ngIf="!authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" routerLink="/register" href="#">Register</a>
+          <a class="nav-link" routerLink="/register" href="#">{{'NAVBAR.REGISTER' | translate}}</a>
         </li>
         <li class="nav-item" *ngIf="!authService.loggedIn()"  [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}">
-          <a class="nav-link" routerLink="/login">Login</a>
+          <a class="nav-link" routerLink="/login">{{'NAVBAR.LOGIN' | translate}}</a>
         </li>
 
         <li *ngIf="authService.loggedIn()" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact:true}" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Profile</a>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{'NAVBAR.PROFILE' | translate}}</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" routerLink="/profile/info">Info</a>
-            <a class="dropdown-item" routerLink="/profile/fanfic">Fanfic</a>
-            <a class="dropdown-item cursor" (click)="onLogoutClick()">Logout</a>
+            <a class="dropdown-item" routerLink="/profile/info">{{'NAVBAR.INFO' | translate}}</a>
+            <a class="dropdown-item" routerLink="/profile/fanfic">{{'NAVBAR.FANFICS' | translate}}</a>
+            <a class="dropdown-item cursor" (click)="onLogoutClick()">{{'NAVBAR.LOGOUT' | translate}}</a>
           </div>
         </li>
         <li class="nav-item dropdown">
@@ -34,8 +34,8 @@
         </li>
       </ul>
       <form [formGroup]="form" class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" formControlName="search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <input class="form-control mr-sm-2" type="text" placeholder="{{'NAVBAR.LOGOUT' | translate}}" aria-label="Search" formControlName="search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{'NAVBAR.SEARCH' | translate}}</button>
       </form>
     </div>
   </div>

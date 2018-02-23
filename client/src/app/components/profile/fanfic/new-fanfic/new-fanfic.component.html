@@ -33,26 +33,32 @@
         <option>Song</option>
         <option>Comics</option>
         <option>Manga</option>
+        <option>Game</option>
       </select>
     </div>
   </div>
   <div class="form-group">
     <label for="tags">Tags</label>
     <div [ngClass]="{'has-error': (form.controls.tags.errors && form.controls.tags.dirty), 'has-success': !form.controls.tags.errors}">
-      <input type="text" name="tags" class="form-control" autocomplete="on" placeholder="*Tags" formControlName="tags"/>
+      <tag-input (onAdd)="onTagAdd($event)"
+                 (onRemove)="onTagRemove($event)"
+                 [ngModel]="[]"
+                 [formControlName]="'tags'"
+                 name="items"
+                 [addOnBlur]="true"
+                 [clearOnBlur]="true">
+        <tag-input-dropdown [autocompleteItems]="this.fanficService.cloudTags">
+        </tag-input-dropdown>
+      </tag-input>
       <ul class="help-block">
         <li *ngIf="form.controls.tags.errors?.required && form.controls.tags.dirty">This field is required</li>
       </ul>
+
     </div>
   </div>
-  <!--<div class="form-group">
-    <label for="fanfic">Fanfic</label>
-    <div [ngClass]="{'has-error': (form.controls.fanfic.errors && form.controls.fanfic.dirty), 'has-success': !form.controls.fanfic.errors}">
-      <textarea [froalaEditor]="froalaOptions" name="fanfic" class="form-control" formControlName="fanfic" ></textarea>
-      <ul class="help-block">
-        <li *ngIf="form.controls.fanfic.errors?.required && form.controls.fanfic.dirty">This field is required</li>
-      </ul>
-    </div>
-  </div>-->
+
+
+
   <input [disabled]="this.form.invalid || this.fanficService.coverRefresh == false" type="submit" class="btn btn-primary" value="Create fanfic" [ngx-scroll-to]="'top'" />
 </form>
+

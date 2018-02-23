@@ -3,17 +3,18 @@ import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from "@angular/forms";
 import { FormsModule } from '@angular/forms';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { AppRoutingModule} from "./app-routing.module";
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AppRoutingModule } from "./app-routing.module";
 import { FlashMessagesModule } from 'angular2-flash-messages'
-import { FroalaEditorModule, FroalaViewModule} from 'angular-froala-wysiwyg';
-import { AngularFireModule} from 'angularfire2';
-import { AngularFirestoreModule} from 'angularfire2/firestore';
-import { AngularFireStorageModule} from 'angularfire2/storage';
-import { AngularFireAuthModule} from 'angularfire2/auth';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireStorageModule } from 'angularfire2/storage';
+import { AngularFireAuthModule } from 'angularfire2/auth';
 import { ScrollToModule } from '@nicky-lenaers/ngx-scroll-to';
 import { InlineEditorModule } from 'ng2-inline-editor';
 import { MomentModule } from 'angular2-moment';
+import { TagInputModule } from 'ngx-chips';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -39,6 +40,9 @@ import { DashboardComponent } from './components/admin/dashboard/dashboard.compo
 import { EditFanficComponent } from './components/profile/fanfic/fanfic-editor/edit-fanfic/edit-fanfic.component';
 import { EditChapterComponent } from './components/profile/fanfic/fanfic-editor/edit-chapter/edit-chapter.component';
 import { AddChapterComponent } from './components/profile/fanfic/fanfic-editor/add-chapter/add-chapter.component';
+import { FanficPreviewComponent } from './components/home/fanfic-preview/fanfic-preview.component';
+import { ReaderComponent } from './components/reader/reader.component';
+import { ChapterReaderComponent } from './components/reader/chapter-reader/chapter-reader.component';
 
 import { DeleteUserDialogComponent } from './components/admin/dashboard/delete-user-dialog/delete-user-dialog.component';
 import { BlockUserDialogComponent } from './components/admin/dashboard/block-user-dialog/block-user-dialog.component';
@@ -63,6 +67,7 @@ import { MatTableModule,
          MatToolbarModule,
          MatButtonModule,
          MatDialogModule,
+         MatChipsModule
         } from '@angular/material';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -93,6 +98,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EditFanficComponent,
     EditChapterComponent,
     AddChapterComponent,
+    FanficPreviewComponent,
+    ReaderComponent,
+    ChapterReaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -119,6 +127,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatIconModule,
     MatToolbarModule,
     MatButtonModule,
+    MatChipsModule,
     ScrollToModule.forRoot(),
     InlineEditorModule,
     TranslateModule.forRoot({
@@ -128,7 +137,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
         }
     }),
-    MomentModule
+    MomentModule,
+    TagInputModule
   ],
   entryComponents: [
     DeleteUserDialogComponent,

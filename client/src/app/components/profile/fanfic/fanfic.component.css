@@ -32,3 +32,7 @@
 .pointer:hover {
   cursor:pointer;
 }
+
+.mat-chip:not(.mat-basic-chip) + .mat-chip:not(.mat-basic-chip) {
+  margin: 0!important;
+}

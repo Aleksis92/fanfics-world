@@ -1,0 +1,24 @@
+<div *ngIf="readableFanfic" class="card text-center">
+  <div *ngIf="!this.fanficService.readableMode">
+    <div  class="card-header">
+      <h2>{{readableFanfic.title}}</h2>
+    </div>
+    <img class="card-img-top" src="{{readableFanfic.cover}}">
+    <mat-chip-list></mat-chip-list>
+    <div class="card-footer">
+      <strong>{{'PREVIEW.GENRE' | translate}}: </strong>{{readableFanfic.genre}}
+      <br/>
+      <strong>{{'PREVIEW.TAGS' | translate}}: </strong>
+      <mat-chip *ngFor="let tag of readableFanfic.tags">{{tag.display}}</mat-chip>
+      <br/>
+      <strong>{{'PREVIEW.AUTHOR' | translate}}: </strong>{{readableFanfic.createdBy.username}}
+      <br/>
+      <strong>{{'PREVIEW.DATE' | translate}}: </strong>{{readableFanfic.createdAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}}
+      <br/>
+    </div>
+  </div>
+  <chapter-reader [readableFanfic]="readableFanfic"></chapter-reader>
+  <div *ngIf="!this.fanficService.readableMode" class="card-footer text-muted">
+    comments
+  </div>
+</div>
