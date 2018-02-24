@@ -17,12 +17,14 @@ import { MomentModule } from 'angular2-moment';
 import { TagInputModule } from 'ngx-chips';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { Ng2ScrollimateModule } from 'ng2-scrollimate';
 
 import { environment} from '../environments/environment';
 
 import { UserService } from './services/user.service';
 import { AuthService} from "./services/auth.service";
 import { FanficService } from './services/fanfic.service';
+import { CommentService } from './services/comment.service';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -43,6 +45,7 @@ import { AddChapterComponent } from './components/profile/fanfic/fanfic-editor/a
 import { FanficPreviewComponent } from './components/home/fanfic-preview/fanfic-preview.component';
 import { ReaderComponent } from './components/reader/reader.component';
 import { ChapterReaderComponent } from './components/reader/chapter-reader/chapter-reader.component';
+import { ChapterCommentsComponent } from './components/reader/chapter-comments/chapter-comments.component';
 
 import { DeleteUserDialogComponent } from './components/admin/dashboard/delete-user-dialog/delete-user-dialog.component';
 import { BlockUserDialogComponent } from './components/admin/dashboard/block-user-dialog/block-user-dialog.component';
@@ -101,6 +104,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FanficPreviewComponent,
     ReaderComponent,
     ChapterReaderComponent,
+    ChapterCommentsComponent,
   ],
   imports: [
     BrowserModule,
@@ -138,14 +142,15 @@ export function HttpLoaderFactory(http: HttpClient) {
         }
     }),
     MomentModule,
-    TagInputModule
+    TagInputModule,
+    Ng2ScrollimateModule
   ],
   entryComponents: [
     DeleteUserDialogComponent,
     BlockUserDialogComponent,
     RoleUserDialogComponent,
   ],
-  providers: [AuthService, FanficService, UserService, AuthGuard, NotAuthGuard, AdminSerfGuard],
+  providers: [AuthService, FanficService, UserService, CommentService, AuthGuard, NotAuthGuard, AdminSerfGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -130,7 +130,6 @@ export class RegisterComponent implements OnInit {
   registerSuccess (token, message) {
     this.messageClass = 'alert alert-success';
     this.message = message;
-    this.authService.storeUserData(token);
     this.registerSuccessTimeout()
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {FanficService} from '../../services/fanfic.service';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-reader',
@@ -13,7 +14,8 @@ export class ReaderComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private fanficService: FanficService
+    private fanficService: FanficService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {

@@ -1,6 +1,5 @@
-const timestamps = require('mongoose-timestamp')
+const timestamps = require('mongoose-timestamp');
 const mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
 
 const chapterSchema = new Schema({
@@ -20,13 +19,16 @@ const fanficSchema = new Schema({
     cover: {type: String, required: false, unique: false, },
     genre: {type: String, required: false,},
     tags: [tagSchema],
+    comments: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment'
+    },
     createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
     fanficChapters: [chapterSchema]
 });
-
 
 fanficSchema.set('autoIndex', false);
 chapterSchema.set('autoIndex', false);

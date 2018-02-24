@@ -1,6 +1,7 @@
 <div class="card">
-  <div class="card-body contents" id="reader">
-    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">{{'READER.MODE' | translate}}</button>
+  <div class="card-body contents">
+    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#Modal">{{'READER.MODE' | translate}}
+    </button>
     <h5 class="card-title">Contents:</h5>
     <ul class="list-group list-group-flush">
       <li class="list-group-item" *ngFor="let chapter of readableFanfic.fanficChapters; let i = index "><span
@@ -9,7 +10,7 @@
     <div *ngIf="readChapter" class="chapter text-left">
       <h2>{{readableChapter.title}}</h2>
       <img *ngIf="readableChapter.cover" class="card-img-top" src="{{readableChapter.cover}}">
-      <div class="card-text" [innerHTML]="readableChapter.chapter"></div>
+      <div class="card-text" [innerHTML]="readableChapter.chapter" id="reader"></div>
       <nav ngx-scroll-to="reader">
         <ul class="pagination justify-content-center">
           <li [class.disabled]="readableChapter.index == 0" class="page-item">
@@ -27,8 +28,10 @@
 </div>
 
 
-<div class="modal fade fade-fullscreen" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-dialog fullscreen" role="document">
+<div (scroll)="onScroll($event)" class="modal fade fade-fullscreen" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog fullscreen transform" role="document">
+    <h6 class="fixed"><span class="badge badge-info">{{readPercantege + '%'}}</span></h6>
     <div class="modal-content">
       <div class="modal-header text-center">
         <h5 class="modal-title" id="ModalLabel">{{readableFanfic.title}}</h5>
@@ -54,8 +57,10 @@
                     <a class="page-link" (click)="showChapter(readableChapter.index - 1)">Previous chapter</a>
                   </li>
                   <li class="page-item" (click)="showChapter(i)"
-                      *ngFor="let chapter of readableFanfic.fanficChapters; let i = index"><a class="page-link">{{i+1}}</a></li>
-                  <li [class.disabled]="readableChapter.index == readableFanfic.fanficChapters.length" class="page-item">
+                      *ngFor="let chapter of readableFanfic.fanficChapters; let i = index"><a
+                    class="page-link">{{i+1}}</a></li>
+                  <li [class.disabled]="readableChapter.index == readableFanfic.fanficChapters.length"
+                      class="page-item">
                     <a class="page-link" (click)="showChapter(readableChapter.index + 1)">Next chapter</a>
                   </li>
                 </ul>

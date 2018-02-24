@@ -12,13 +12,32 @@
 }
 
 .fullscreen {
-  height: 100%!important;
-  width: 100% !important;
-  max-width: 100% !important;
+  min-height: 100vh!important;
+  min-width: 100vw !important;
   margin: 0!important;
-  padding: 0!important;
+  z-index: 10!important;
 }
 
 .fade-fullscreen {
   padding: 0!important;
+}
+
+.fixed{
+  position:fixed!important;
+  top:100px;
+  left: 0;
+  background: #f2f2f2;
+  z-index:9999;
+}
+
+.z-index {
+  z-index: 9999!important;
+}
+
+.overflow {
+  overflow-y: scroll!important;
+}
+
+.transform {
+  transform: none!important;
 }

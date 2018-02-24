@@ -24,5 +24,11 @@
   },
   "READER": {
     "MODE": "Read mode"
+  },
+  "COMMENTS": {
+    "HEADER": "Comments",
+    "NEW": "New comment",
+    "PLACEHOLDER": "Enter comment text...",
+    "BUTTON": "Publish"
   }
 }

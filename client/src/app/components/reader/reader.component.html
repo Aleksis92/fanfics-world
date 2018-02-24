@@ -18,7 +18,7 @@
     </div>
   </div>
   <chapter-reader [readableFanfic]="readableFanfic"></chapter-reader>
-  <div *ngIf="!this.fanficService.readableMode" class="card-footer text-muted">
-    comments
+  <div *ngIf="this.authService.user" class="card-footer text-muted">
+    <chapter-comments [readableFanfic]="readableFanfic"></chapter-comments>
   </div>
 </div>

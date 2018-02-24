@@ -84,8 +84,7 @@ export class FanficService {
       }});
   }
 
-  deleteFanficHTTP(_id) {
-    const fanfic = {_id: _id};
+  deleteFanficHTTP(fanfic) {
     return this.httpClient.post(this.domain + '/fanfic/delete/fanficTitle', fanfic , { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }});

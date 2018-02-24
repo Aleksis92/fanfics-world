@@ -38,9 +38,9 @@ export class AuthService {
   }
 
   logout() {
-    this.authToken = undefined;
-    this.user = undefined;
-    this.admin = undefined;
+    this.authToken = false;
+    this.user = false;
+    this.admin = false;
     this.isAdmin = false;
     localStorage.removeItem('token');
   }
@@ -52,7 +52,7 @@ export class AuthService {
 
   storeUserData(user) {
     this.user = user;
-    if(user.role = "Admin") {
+    if(user.role == "Admin") {
       this.isAdmin = true;
     }
   }

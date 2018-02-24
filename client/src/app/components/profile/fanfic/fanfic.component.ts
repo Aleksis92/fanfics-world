@@ -123,7 +123,7 @@ export class FanficComponent implements OnInit, OnDestroy {
   }
 
   deleteFanfic(fanfic) {
-    this.fanficService.deleteFanficHTTP(fanfic._id).subscribe(data => {
+    this.fanficService.deleteFanficHTTP(fanfic).subscribe(data => {
       if ((<any>data).success) {
       const foundIndex = this.allUserFanfics.dataChange.value.findIndex(users => users._id === fanfic._id);
       this.allUserFanfics.dataChange.value.splice(foundIndex, 1);

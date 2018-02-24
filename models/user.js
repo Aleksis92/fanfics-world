@@ -105,7 +105,7 @@ const userSchema = new Schema({
     username: {type: String, required: true, unique: false, /*validate: usernameValidators*/},
     password: {type: String, required: false, validate: passwordValidators},
     provider: {type: String, required: false},
-    photoUrl: {type: String, required: false},
+    photoUrl: {type: String, required: false, default: 'http://sprintresources.com/wp-content/uploads/2016/12/icon-user.png'},
     role: {type: String, default: 'User'},
     status: {type: String, default: 'Unblock'},
 });

@@ -3,7 +3,6 @@ const User = require('../models/user');
 module.exports = (router) => {
 
     router.post('/saveUser', (req, res) => {
-        console.log(req.body);
         let user = new User({
             _id: req.body._id,
             username: req.body.username,

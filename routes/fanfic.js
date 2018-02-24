@@ -9,11 +9,7 @@ module.exports = (router) => {
             for (let tag of req.body.tagCloud) {
                 tag.fanfic = fanficDB._id;
                 if (tag.action === 'add') {
-                    CloudTags.update({value: tag.value}, {$push: {"fanfic": tag.fanfic}}, {upsert: true}, (err) => {
-                        if (err) {
-                            console.log('err')
-                        }
-                    })
+                    CloudTags.update({value: tag.value}, {$push: {"fanfic": tag.fanfic}}, {upsert: true}, (err) => {})
                 }
             }
             if(!err) {
@@ -35,7 +31,7 @@ module.exports = (router) => {
     });
 
     router.get('/get/lastUpdatedFanfic', (req, res) => {
-        Fanfic.find({}).populate('createdBy').sort({updatedAt: -1}).limit(6).exec(function(err, fanfics) {
+        Fanfic.find({}).select('title description cover genre tags createdAt').populate('createdBy').sort({updatedAt: -1}).limit(6).exec(function(err, fanfics) {
             if(!err) {
                 res.json({success: true, message: 'success', fanfics: JSON.stringify(fanfics)})
             } else {
@@ -97,7 +93,6 @@ module.exports = (router) => {
             chapter: req.body.chapter,
             cover: req.body.cover,
         };
-
     Fanfic.update({'fanficChapters._id': req.body._id}, {$set: {'fanficChapters.$': chapter}}, {new: true}, (err) => {
             if(!err) {
                 res.json({success: true, message: 'success', chapter: JSON.stringify(chapter)})
@@ -109,6 +104,9 @@ module.exports = (router) => {
 
     router.post('/delete/fanficTitle', (req, res) => {
         Fanfic.findByIdAndRemove(req.body._id, (err) => {
+            for (let tag of req.body.tags) {
+                CloudTags.update({value: tag.value}, {$pull: {fanfic: req.body._id}}, (err) => {});
+            }
             if(!err) {
                 res.json({success: true, message: 'success'})
             } else {
@@ -130,32 +128,16 @@ module.exports = (router) => {
     router.post('/update/cloudTags', (req, res) => {
         for (let tag of req.body) {
             if(tag.action === 'remove') {
-                CloudTags.update({value: tag.value}, {$pull: {fanfic: tag.fanfic}}, (err) => {
-                    if(err) {
-                        console.log('err')
-                    } else {
-                        console.log('succeess')
-                    }
-                });
+                CloudTags.update({value: tag.value}, {$pull: {fanfic: tag.fanfic}}, (err) => {});
             }
             if (tag.action === 'add') {
-                CloudTags.update({value: tag.value}, {$push: {"fanfic": tag.fanfic}}, {upsert: true}, (err) => {
-                    if(err) {
-                        console.log('err')
-                    } else {
-                        console.log('succeess')
-                    }
-                })
+                CloudTags.update({value: tag.value}, {$push: {"fanfic": tag.fanfic}}, {upsert: true}, (err) => {})
             }
             if(req.body.indexOf(tag)=== req.body.length) {
                 res.json({success: true, message: 'success'})
             }
         }
     });
-
-
-
-
 
     return router;
 };

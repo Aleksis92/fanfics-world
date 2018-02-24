@@ -1,0 +1,57 @@
+{{'COMMENTS.HEADER' | translate}}
+
+<!--<div *ngIf="currentComments">
+  <div *ngFor="let comment of currentComments" class="card text-left comment">
+    <div class="card-body">
+      <div>
+        <img src="{{comment.createdBy.photoUrl}}" class="scale">
+        <p>{{comment.createdBy.username}}</p>
+      </div>
+      <span>{{comment.text}}</span>
+    </div>
+  </div>
+</div>-->
+
+<div *ngIf="currentComments" class="container">
+  <div *ngFor="let comment of currentComments"  class="row comment">
+    <div class="col-sm-12">
+      <div class="card card-white post text-left card-shadow">
+        <div class="post-heading">
+          <div class="pull-left image">
+            <img src="{{comment.createdBy.photoUrl}}" class="img-circle avatar" alt="user profile image">
+          </div>
+          <div class="pull-left meta">
+            <div class="title h5">
+              <a href="#"><b>{{comment.createdBy.username}}</b></a>
+            </div>
+            <h6 class="text-muted time">{{comment.createdAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}}</h6>
+          </div>
+        </div>
+        <div class="post-description">
+          <p>{{comment.text}}</p>
+          <div class="stats">
+            <i [class.disabled]="checkRepeatLike(comment)" class="btn btn-success stat-item" (click)="onLike(comment)">
+              <i class="fa fa-thumbs-up icon"></i>{{comment.likes.length}}
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="form" (submit)="onCommentSubmit()">
+  <div class="card border-secondary text-left">
+    <div class="card-header">
+      {{'COMMENTS.NEW' | translate}}
+    </div>
+    <div class="input-group">
+      <textarea class="form-control full" name="comment" formControlName="comment" aria-label="With textarea"
+                placeholder="{{'COMMENTS.PLACEHOLDER' | translate}}">
+      </textarea>
+    </div>
+    <div class="card-footer text-muted">
+      <button [disabled]="!form.valid" type="submit" class="btn btn-primary">{{'COMMENTS.BUTTON' | translate}}</button>
+    </div>
+  </div>
+</form>
