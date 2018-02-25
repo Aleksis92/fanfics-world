@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import {FanficService} from './services/fanfic.service';
 
 @Component({
   selector: 'app-root',

@@ -1,17 +1,15 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 const Schema = mongoose.Schema;
-
-const fanficSchema = new Schema({
-    id: {type: String, required: false, unique: false},
-});
+mongoose.set('debug', true);
 
 const cloudTagsSchema = new Schema({
     value: {type: String, required: false, unique: true},
-    fanfic: {
+    fanfic: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Fanfic'
-    },
+    }],
 });
+
 
 module.exports = mongoose.model('CloudTags', cloudTagsSchema);

@@ -1,10 +1,23 @@
 <h3>{{'HELLO' | translate}}</h3>
-<h3>{{'HOME.LATEST' | translate}}</h3>
+
+
 <mat-chip-list></mat-chip-list>
-<div class="container-fluid">
+<div class="container-fluid no-gutter">
+  <h3>{{'HOME.CLOUD' | translate}}</h3>
   <div class="row">
-    <div *ngFor="let fanfic of lastUpdatedFanfic" class="col-12 col-md-6 col-lg-4">
-      <fanfic-preview  [fanfic]="fanfic"></fanfic-preview>
+    <cloud-tags></cloud-tags>
+  </div>
+  <h3>{{'HOME.LATEST' | translate}}</h3>
+  <div class="row">
+    <div *ngFor="let fanfic of lastUpdatedFanfics" class="col-12 col-md-6 col-lg-4">
+      <fanfic-preview [fanfic]="fanfic"></fanfic-preview>
+    </div>
+  </div>
+
+  <h3>{{'HOME.TOP' | translate}}</h3>
+  <div class="row">
+    <div *ngFor="let fanfic of topFanfics" class="col-12 col-md-6 col-lg-4">
+      <fanfic-preview [fanfic]="fanfic"></fanfic-preview>
     </div>
   </div>
 </div>

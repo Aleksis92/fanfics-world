@@ -1,0 +1,9 @@
+<h3>{{'SEARCH.TAG' | translate}}: {{tag}}</h3>
+<mat-chip-list></mat-chip-list>
+<div class="container-fluid no-gutter">
+  <div class="row">
+    <div *ngFor="let fanfic of searchTagFanfics" class="col-12 col-md-6 col-lg-4">
+      <fanfic-preview [fanfic]="fanfic"></fanfic-preview>
+    </div>
+  </div>
+</div>

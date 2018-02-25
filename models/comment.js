@@ -22,8 +22,6 @@ const commentSchema =  new Schema({
 });
 
 
-
-commentSchema.set('autoIndex', false);
 commentSchema.plugin(timestamps);
 mongoose.model('Comment', commentSchema);
 module.exports = mongoose.model('Comment', commentSchema);

@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { FlashMessagesService} from 'angular2-flash-messages';
 import { TranslateService } from '@ngx-translate/core';
+import {FanficService} from '../../services/fanfic.service';
 
 @Component({
   selector: 'app-navbar',
@@ -40,8 +41,13 @@ export class NavbarComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
-      search: '',
+      search: ['', Validators.required],
     });
+  }
+
+  onSearchSubmit() {
+    let search = this.form.get('search').value;
+    this.router.navigate(['/search/fanfic/:' + search]);
   }
 
 }

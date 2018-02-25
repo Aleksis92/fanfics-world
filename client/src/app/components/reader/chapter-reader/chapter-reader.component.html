@@ -8,17 +8,19 @@
         class="pointer" (click)="showChapter(i)">{{(i + 1) + '. '}}{{chapter.title}}</span></li>
     </ul>
     <div *ngIf="readChapter" class="chapter text-left">
+      <bar-rating [(rate)]="averageRating" [max]="5" [readOnly]="readonly"
+                  (rateChange)="onRatingClicked($event)"></bar-rating>
       <h2>{{readableChapter.title}}</h2>
       <img *ngIf="readableChapter.cover" class="card-img-top" src="{{readableChapter.cover}}">
       <div class="card-text" [innerHTML]="readableChapter.chapter" id="reader"></div>
       <nav ngx-scroll-to="reader">
         <ul class="pagination justify-content-center">
-          <li [class.disabled]="readableChapter.index == 0" class="page-item">
+          <li [class.disabled]="getChapterIndex() == 0" class="page-item">
             <a class="page-link" (click)="showChapter(readableChapter.index - 1)">Previous chapter</a>
           </li>
-          <li class="page-item" (click)="showChapter(i)"
-              *ngFor="let chapter of readableFanfic.fanficChapters; let i = index"><a class="page-link">{{i+1}}</a></li>
-          <li [class.disabled]="readableChapter.index == readableFanfic.fanficChapters.length" class="page-item">
+          <li class="page-item" [class.active]="chapter._id == readableChapter._id" (click)="showChapter(i)"
+              *ngFor="let chapter of readableFanfic.fanficChapters; let i = index"><a class="page-link">{{i+1}}</a>
+          <li [class.disabled]="getChapterIndex() == (readableFanfic.fanficChapters.length - 1)" class="page-item">
             <a class="page-link" (click)="showChapter(readableChapter.index + 1)">Next chapter</a>
           </li>
         </ul>

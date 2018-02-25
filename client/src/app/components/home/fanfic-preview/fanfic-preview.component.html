@@ -12,8 +12,8 @@
     <br/>
     <strong>{{'PREVIEW.AUTHOR' | translate}}: </strong>{{fanfic.createdBy.username}}
     <br/>
-    <strong>{{'PREVIEW.DATE' | translate}}: </strong>{{fanfic.createdAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}}
-    <br/>
+    <strong>{{'PREVIEW.DATE' | translate}}: </strong>{{fanfic.updatedAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}}
+    <bar-rating [(rate)]="fanfic.rating" [max]="5" [readOnly]="true"></bar-rating>
   </div>
 
 </div>

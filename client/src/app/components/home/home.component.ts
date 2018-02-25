@@ -7,9 +7,11 @@ import {FanficService} from '../../services/fanfic.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
 export class HomeComponent implements OnInit {
 
-  lastUpdatedFanfic;
+  lastUpdatedFanfics;
+  topFanfics;
 
   constructor(
     private authService: AuthService,
@@ -18,8 +20,19 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getLastUpdatedFanfics();
+    this.getTopFanfics();
+  }
+
+  getLastUpdatedFanfics() {
     this.fanficService.getLastUpdatedFanficsHTTP().subscribe(data => {
-      this.lastUpdatedFanfic = JSON.parse((<any>data).fanfics);
+      this.lastUpdatedFanfics = JSON.parse((<any>data).fanfics);
+    })
+  }
+
+  getTopFanfics() {
+    this.fanficService.getTopFanficsHTTP().subscribe(data => {
+      this.topFanfics = JSON.parse((<any>data).fanfics);
     })
   }
 

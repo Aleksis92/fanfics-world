@@ -17,7 +17,8 @@ import { MomentModule } from 'angular2-moment';
 import { TagInputModule } from 'ngx-chips';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { Ng2ScrollimateModule } from 'ng2-scrollimate';
+import {BarRatingModule} from 'ngx-bar-rating';
+import {TagCloudModule} from 'angular-tag-cloud-module';
 
 import { environment} from '../environments/environment';
 
@@ -72,6 +73,9 @@ import { MatTableModule,
          MatDialogModule,
          MatChipsModule
         } from '@angular/material';
+import {CloudTagsComponent} from './components/home/cloud-tags/cloud-tags.component';
+import {SearchComponent} from './components/search/search.component';
+import {SearchTagComponent} from './components/search-tag/search-tag.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -105,6 +109,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     ReaderComponent,
     ChapterReaderComponent,
     ChapterCommentsComponent,
+    CloudTagsComponent,
+    SearchComponent,
+    SearchTagComponent,
   ],
   imports: [
     BrowserModule,
@@ -143,7 +150,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
     MomentModule,
     TagInputModule,
-    Ng2ScrollimateModule
+    BarRatingModule,
+    TagCloudModule
   ],
   entryComponents: [
     DeleteUserDialogComponent,

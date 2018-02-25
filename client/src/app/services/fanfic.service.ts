@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { AuthService} from './auth.service';
 import { UserFanfics } from '../models/user-fanfics';
-import { BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {TranslateService} from '@ngx-translate/core';
+import {FlashMessagesService} from 'angular2-flash-messages';
 
 @Injectable()
 export class FanficService {
@@ -27,7 +29,9 @@ export class FanficService {
 
   constructor(
     private httpClient: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService,
+    private flashMessagesService: FlashMessagesService
   ) { }
 
 
@@ -108,8 +112,9 @@ export class FanficService {
   }
 
   getCloudTagsHTTP() {
-    this.httpClient.get(this.domain + '/fanfic/get/allTags', { headers: {
-        'authorization': this.authService.authToken, 'content-type': 'application/json'
+    this.httpClient.get(this.domain + '/fanfic/get/cloudTags', {
+      headers: {
+        'authorization': 'all', 'content-type': 'application/json'
       }}).subscribe(data => {
         this.cloudTags = [];
         for(let tag of JSON.parse((<any>data).tags)) {
@@ -121,11 +126,27 @@ export class FanficService {
       });
   }
 
+  getAllTagsHTTP() {
+    return this.httpClient.get(this.domain + '/fanfic/get/cloudTags', {
+      headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }
+    });
+  }
+
+  getTagFanficsHTTP(tag) {
+    return this.httpClient.get(this.domain + '/fanfic/search/tag/:' + tag, {
+      headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }
+    });
+  }
+
   modifyCloudTagHTTP(modifyArray) {
     this.httpClient.post(this.domain + '/fanfic/update/cloudTags', modifyArray, { headers: {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
-      }}).subscribe(data => {
-        console.log('success modify cloudTag');
+      }
+    }).subscribe(data => {
       },
       (error: HttpErrorResponse) => {
         console.log(error.name + ' ' + error.message)
@@ -133,7 +154,24 @@ export class FanficService {
   }
 
   getLastUpdatedFanficsHTTP() {
-    return this.httpClient.get(this.domain + '/fanfic/get/lastUpdatedFanfic', { headers: {
+    return this.httpClient.get(this.domain + '/fanfic/get/lastUpdatedFanfics', {
+      headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }
+    });
+  }
+
+  getTopFanficsHTTP() {
+    return this.httpClient.get(this.domain + '/fanfic/get/topFanfics', {
+      headers: {
+        'authorization': 'all', 'content-type': 'application/json'
+      }
+    });
+  }
+
+  getSearchFanficsHTTP(search) {
+    return this.httpClient.get(this.domain + '/fanfic/get/searchFanfic/:' + search, {
+      headers: {
         'authorization': 'all', 'content-type': 'application/json'
       }})
   }
@@ -142,6 +180,20 @@ export class FanficService {
     return this.httpClient.get(this.domain + '/fanfic/get/readableFanfic/:' + _id, { headers: {
         'authorization': 'all', 'content-type': 'application/json'
       }})
+  }
+
+  setChapterRatingHTTP(rating) {
+    return this.httpClient.post(this.domain + '/fanfic/set/rating', rating, {
+      headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }
+    });
+  }
+
+  showFlashMessage(key, css) {
+    this.translate.get(key).subscribe((res: string) => {
+      this.flashMessagesService.show(res, {cssClass: css});
+    });
   }
 
 }

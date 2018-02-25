@@ -5,12 +5,6 @@
   font-size: 12pt;
 }
 
-.disabled {
-  pointer-events: none!important;
-  cursor: default!important;
-  color: lightgray!important;
-}
-
 .fullscreen {
   min-height: 100vh!important;
   min-width: 100vw !important;
@@ -41,3 +35,4 @@
 .transform {
   transform: none!important;
 }
+

@@ -13,6 +13,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { FileUploadComponent } from './components/file-upload/file-upload.component';
 import { AdminSerfGuard } from './guards/admin-serf.guard';
 import { ReaderComponent } from './components/reader/reader.component';
+import {SearchTagComponent} from './components/search-tag/search-tag.component';
+import {SearchComponent} from './components/search/search.component';
 
 const appRoutes: Routes = [
   {
@@ -22,6 +24,14 @@ const appRoutes: Routes = [
   {
     path: 'reader/:_id',
     component: ReaderComponent,
+  },
+  {
+    path: 'search/fanfic/:query',
+    component: SearchComponent,
+  },
+  {
+    path: 'search/tag/:tag',
+    component: SearchTagComponent,
   },
   {
     path: 'register',

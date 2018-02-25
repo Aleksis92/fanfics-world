@@ -1,0 +1,7 @@
+<div class="col-12">
+  <div class="inline" *ngFor="let tag of tagList">
+    <mat-chip *ngIf="tag.fanfic.length > 0">
+      <a routerLink="/search/tag/:{{tag.value}}">{{tag.value}}</a>
+    </mat-chip>
+  </div>
+</div>

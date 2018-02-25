@@ -14,6 +14,7 @@ import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'fanfic',
@@ -38,6 +39,7 @@ export class FanficComponent implements OnInit, OnDestroy {
     private fanficService: FanficService,
     private dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
+    private translate: TranslateService,
     private flashMessagesService: FlashMessagesService
   ) {
   }
@@ -76,7 +78,7 @@ export class FanficComponent implements OnInit, OnDestroy {
   }
 
   public loadData() {
-    this.allUserFanfics = new FanficService(this.httpClient, this.authService);
+    this.allUserFanfics = new FanficService(this.httpClient, this.authService, this.translate, this.flashMessagesService);
     this.dataSource = new FanficDataSource(this.allUserFanfics, this.paginator, this.sort, this.authService);
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
       .debounceTime(150)

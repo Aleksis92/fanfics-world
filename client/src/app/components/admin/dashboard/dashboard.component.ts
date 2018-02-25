@@ -189,7 +189,7 @@ export class DashboardComponent implements OnInit {
 
   toggleListener() {
     this.selection.onChange.subscribe((changeFanfics) => {
-      if (changeFanfics.added[0])   // will be undefined if no selection
+      if (changeFanfics.added[0])
       {
         this.authService._id = (<any>this.selection.selected[0])._id;
       }
@@ -228,13 +228,10 @@ export class UserDataSource extends DataSource<User> {
               public _paginator: MatPaginator,
               public _sort: MatSort) {
     super();
-    // Reset to the first page when the user changes the filter.
     this._filterChange.subscribe(() => this._paginator.pageIndex = 0);
   }
 
-  /** Connect function called by the table to retrieve one stream containing the data to render. */
   connect(): Observable<User[]> {
-    // Listen for any changes in the base data, sorting, filtering, or pagination
     const displayDataChanges = [
       this._allUserFanfic.dataChange,
       this._sort.sortChange,
@@ -245,16 +242,13 @@ export class UserDataSource extends DataSource<User> {
     this._allUserFanfic.getAllUsers();
 
     return Observable.merge(...displayDataChanges).map(() => {
-      // Filter data
       this.filteredData = this._allUserFanfic.data.slice().filter((user: User) => {
         const searchStr = (user._id + user.username + user.provider + user.role).toLowerCase();
         return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
       });
 
-      // Sort filtered data
       const sortedData = this.sortData(this.filteredData.slice());
 
-      // Grab the page's slice of the filtered sorted data.
       const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
       this.renderedData = sortedData.splice(startIndex, this._paginator.pageSize);
       return this.renderedData;
@@ -263,9 +257,6 @@ export class UserDataSource extends DataSource<User> {
   disconnect() {
   }
 
-
-
-  /** Returns a sorted copy of the database data. */
   sortData(data: User[]): User[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
@@ -291,7 +282,3 @@ export class UserDataSource extends DataSource<User> {
     });
   }
 }
-
-
-
-

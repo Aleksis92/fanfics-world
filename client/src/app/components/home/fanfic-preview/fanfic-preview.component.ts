@@ -9,8 +9,8 @@ export class FanficPreviewComponent implements OnInit {
 
   @Input() fanfic;
 
-  constructor(
-  ) { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

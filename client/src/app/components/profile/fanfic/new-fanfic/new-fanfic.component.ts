@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FileUploadComponent } from '../../../file-upload/file-upload.component';
 import { FanficService } from '../../../../services/fanfic.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'new-fanfic',

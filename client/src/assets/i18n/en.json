@@ -13,17 +13,29 @@
     "SEARCH": "Search"
   },
   "HOME": {
-    "LATEST": "Latest update fanfics"
+    "LATEST": "Latest update fanfics",
+    "TOP": "Top",
+    "CLOUD": "Tags cloud"
   },
   "PREVIEW": {
     "GENRE": "Genre",
     "TAGS": "Tags",
     "AUTHOR": "Author",
-    "DATE": "Date",
-    "RATING": "Rating"
+    "DATE": "Updated",
+    "RATING": "Rating",
+    "CHAPTERS": "Chapters"
+  },
+  "SEARCH": {
+    "TAG": "Tag",
+    "RESULT": "Result of search",
+    "TOP": "Top",
+    "CLOUD": "Tags cloud",
+    "ERROR": "The specified tag does not exist"
+
   },
   "READER": {
-    "MODE": "Read mode"
+    "MODE": "Read mode",
+    "ERROR": "The specified fanfic does not exist"
   },
   "COMMENTS": {
     "HEADER": "Comments",
