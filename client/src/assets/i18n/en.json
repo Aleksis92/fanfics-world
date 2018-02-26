@@ -42,5 +42,44 @@
     "NEW": "New comment",
     "PLACEHOLDER": "Enter comment text...",
     "BUTTON": "Publish"
+  },
+  "UPLOAD": {
+    "DROP": "Drag and Drop image",
+    "CHOOSE": "or choose…"
+  },
+  "PROFILE": {
+    "ADMIN": "Warning: admin mode",
+    "NAVBAR": {
+      "INFO": "Info",
+      "FANFICS":"Fanfics"
+    },
+    "INFO": {
+      "USERNAME": "Username",
+      "EMAIL": "Email",
+      "AVATAR": "Avatar"
+    },
+    "FANFICS": {
+      "MAIN": "Fanfics",
+      "TABLE": {
+        "TITLE": "Title",
+        "DESCRIPTION": "Description",
+        "COVER": "Cover",
+        "GENRE": "Genre",
+        "TAGS": "Tags",
+        "CHAPTERS": "Chapters count",
+        "UPDATED": "Updated at"
+      }
+    }
+  },
+  "REGISTER": {
+    "MAIN": "Register page",
+    "USERNAME": "Username",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONFIRM": "Confirm",
+    "BUTTON": "Register"
+  },
+  "LOGIN": {
+    "BLOCK": "This account has been blocked"
   }
 }

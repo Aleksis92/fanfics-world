@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { AuthService} from './auth.service';
 import { User } from '../models/user';
 import { BehaviorSubject} from 'rxjs/BehaviorSubject';
+import {FlashMessagesService} from 'angular2-flash-messages';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class UserService {
@@ -14,7 +16,9 @@ export class UserService {
 
   constructor(
     private httpClient: HttpClient,
-    private authService: AuthService
+    private authService: AuthService,
+    private translate: TranslateService,
+    private flashMessagesService: FlashMessagesService
   ) { }
 
   get data(): User[] {
@@ -66,5 +70,24 @@ export class UserService {
         'authorization': this.authService.authToken, 'content-type': 'application/json'
       }})
   }
+
+  editEmailHttp(email) {
+      return this.httpClient.post(this.domain + '/users/changeEmail', email , { headers: {
+          'authorization': this.authService.authToken, 'content-type': 'application/json'
+        }})
+  }
+
+  editAvatarHttp(avatar) {
+    return this.httpClient.post(this.domain + '/users/changeAvatar', avatar , { headers: {
+        'authorization': this.authService.authToken, 'content-type': 'application/json'
+      }})
+  }
+
+  showFlashMessage(key, css) {
+    this.translate.get(key).subscribe((res: string) => {
+      this.flashMessagesService.show(res, {cssClass: css});
+    });
+  }
+
 
 }

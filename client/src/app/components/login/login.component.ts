@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
 import { AuthGuard} from '../../guards/auth.guard';
+import {checkAndUpdateBinding} from '@angular/core/src/view/util';
 
 @Component({
   selector: 'app-login',
@@ -109,14 +110,24 @@ export class LoginComponent implements OnInit {
       password: this.form.get('password').value
     };
     this.authService.login(user).subscribe(data => {
-      if (!(<any>data).success) {
-        this.loginFail((<any>data).message)
-      } else {
-        this.saveUserToken((<any>data).token);
-        this.loginSuccess((<any>data).message, (<any>data).user)
-      }
+      console.log(data);
+      this.checkUserDB(data);
     })
   }
+
+  checkUserDB(data) {
+    if (!data.success) {
+      this.loginFail(data.message)
+    } else {
+      if(data.user.status == "Block") {
+        this.loginFail('This account has been blocked')
+      } else {
+        this.saveUserToken(<any>data.token);
+        this.loginSuccess(<any>data.message, (<any>data).user)
+      }
+    }
+  }
+
 
   authGuardRedirect () {
     if (this.authGuard.redirectUrl) {

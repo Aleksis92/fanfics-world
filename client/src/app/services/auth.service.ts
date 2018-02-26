@@ -105,11 +105,18 @@ export class AuthService {
   }
 
   showFlashMessage(key, css) {
+    console.log(key)
     this.translate.get(key).subscribe((res: string) => {
       this.flashMessagesService.show(res, {cssClass: css});
     });
   }
 
+  getTranslate(key) {
+    console.log(key)
+    this.translate.get(key).subscribe((res: string) => {
+      return res;
+    });
+  }
 
 }
 

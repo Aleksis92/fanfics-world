@@ -4,10 +4,15 @@
 </h2>
 
 <ul class="list-group">
-  <li class="list-group-item">Username: {{ this.authService.user.username }}</li>
+  <li class="list-group-item">{{'PROFILE.INFO.USERNAME' | translate}}:<br>{{ this.authService.user.username}}</li>
   <li class="list-group-item">
     <div>
-      Email: <inline-editor type="text" [(ngModel)]="email" (onSave)="saveEditable($event)" name="email" size="8"></inline-editor>
+      {{'PROFILE.INFO.EMAIL' | translate}}: <inline-editor type="text" class="pointer" [(ngModel)]="email" (onSave)="saveEditable($event)" name="email" size="8"></inline-editor>
     </div></li>
-  <li class="list-group-item"><img src="{{ this.authService.user.photoUrl }}"></li>
+  <li class="list-group-item full">{{'PROFILE.INFO.AVATAR' | translate}}:<br><img class="avatar pointer" src="{{ this.authService.user.photoUrl }}" (click)="onImageClick()"></li>
+  <!--<li *ngIf="uploadVisible">
+    <file-upload></file-upload>
+    <button class="btn btn-primary" [class.disabled]="fileUploadComponent.downloadURL" (click)="onEditAvatar()">Edit</button>
+    <button class="btn btn-primary" (click)="onUploadCancel()">Cancel</button>
+  </li>-->
 </ul>

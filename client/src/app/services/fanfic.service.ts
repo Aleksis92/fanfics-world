@@ -196,4 +196,10 @@ export class FanficService {
     });
   }
 
+  getTranslate(key) {
+    this.translate.get(key).subscribe((res: string) => {
+      return res;
+    });
+  }
+
 }

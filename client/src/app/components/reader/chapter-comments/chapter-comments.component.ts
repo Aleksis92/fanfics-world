@@ -44,7 +44,6 @@ export class ChapterCommentsComponent implements OnInit, OnDestroy {
   getComment() {
     this.connection = this.commentService.getCommentsWS().subscribe(comment => {
       this.currentComments.push((<any>comment).comment);
-      console.log((<any>comment).comment)
     });
   }
 
@@ -78,9 +77,6 @@ export class ChapterCommentsComponent implements OnInit, OnDestroy {
     this.commentService.addNewCommentHTTP(this.assembleComment()).subscribe(data => {
       if ((<any>data).success) {
         this.sendComment(JSON.parse((<any>data).comment));
-        /*const newComment = JSON.parse((<any>data).comment);
-        newComment.createdBy = this.authService.user;
-        this.currentComments.push(newComment);*/
         this.form.reset();
       }
     });

@@ -1,0 +1,22 @@
+.avatar {
+  width: 50px!important;
+  border-radius: 10px;
+}
+
+.inline {
+  display: inline!important;
+}
+
+.full {
+  width: 100%;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.disabled {
+  pointer-events: none;
+  cursor: default;
+  color: lightgray;
+}

@@ -5,7 +5,7 @@
 
 <h2>
   <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none"><i class="fa fa-bars"></i></a>
-  Fanfics
+  {{'PROFILE.FANFICS.MAIN' | translate}}
 </h2>
 
 <div class="mat-container mat-elevation-z8">
@@ -36,30 +36,30 @@
     <!-- Position Column -->
 
     <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header>   {{'PROFILE.FANFICS.TABLE.TITLE' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"> {{fanfic.title}} </mat-cell>
     </ng-container>
 
     <!-- Name Column -->
     <ng-container matColumnDef="description">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PROFILE.FANFICS.TABLE.DESCRIPTION' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"> {{fanfic.description}} </mat-cell>
     </ng-container>
 
     <!-- Weight Column -->
     <ng-container matColumnDef="cover">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Cover </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PROFILE.FANFICS.TABLE.COVER' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"><img class="scale" src="{{fanfic.cover}}"></mat-cell>
     </ng-container>
 
     <!-- Symbol Column -->
     <ng-container matColumnDef="genre">
-      <mat-header-cell *matHeaderCellDef mat-sort-header=""> Genre </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header=""> {{'PROFILE.FANFICS.TABLE.GENRE' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"> {{fanfic.genre}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="tags">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Tags </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PROFILE.FANFICS.TABLE.TAGS' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic">
         <mat-chip-list>
           <mat-chip *ngFor="let tag of fanfic.tags">{{tag.display}}</mat-chip>
@@ -68,12 +68,12 @@
     </ng-container>
 
     <ng-container matColumnDef="chaptersCount">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Chapters count </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PROFILE.FANFICS.TABLE.CHAPTERS' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic"> {{fanfic.fanficChapters.length}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="updatedAt">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Updated at </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> {{'PROFILE.FANFICS.TABLE.UPDATED' | translate}} </mat-header-cell>
       <mat-cell *matCellDef="let fanfic">{{fanfic.updatedAt | amDateFormat: 'DD-MM-YYYY HH:mm:ss'}} </mat-cell>
     </ng-container>
 

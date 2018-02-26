@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AngularFireStorage, AngularFireUploadTask } from 'angularfire2/storage';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
-import { tap } from 'rxjs/operators';
 import {FanficService} from '../../services/fanfic.service';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'file-upload',

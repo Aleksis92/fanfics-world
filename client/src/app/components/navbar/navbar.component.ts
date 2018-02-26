@@ -4,7 +4,6 @@ import { AuthService } from "../../services/auth.service";
 import { Router } from "@angular/router";
 import { FlashMessagesService} from 'angular2-flash-messages';
 import { TranslateService } from '@ngx-translate/core';
-import {FanficService} from '../../services/fanfic.service';
 
 @Component({
   selector: 'app-navbar',

@@ -92,5 +92,25 @@ module.exports = (router) => {
         }
     });
 
+    router.post('/changeEmail', (req, res) => {
+        User.findByIdAndUpdate(req.body._id, {$set: {email: req.body.value}}, (err) => {
+            if (!err) {
+                res.json({success: true, message: 'Edit email successful'})
+            } else {
+                res.json({success: false, message: 'Could not update email. Error: ', err})
+            }
+        })
+    });
+
+    router.post('/changeAvatar', (req, res) => {
+        User.findByIdAndUpdate(req.body._id, {$set: {cover: req.body.cover}}, (err) => {
+            if (!err) {
+                res.json({success: true, message: 'Edit avatar successful'})
+            } else {
+                res.json({success: false, message: 'Could not update avatar. Error: ', err})
+            }
+        })
+    });
+
     return router;
 };

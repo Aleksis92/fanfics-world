@@ -16,6 +16,7 @@ import { DeleteUserDialogComponent} from './delete-user-dialog/delete-user-dialo
 import { AuthService } from '../../../services/auth.service';
 import { BlockUserDialogComponent } from './block-user-dialog/block-user-dialog.component';
 import {RoleUserDialogComponent} from './role-user-dialog/role-user-dialog.component';
+import {TranslateService} from '@ngx-translate/core';
 
 
 @Component({
@@ -40,6 +41,7 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private dialog: MatDialog,
+    private translate: TranslateService,
     private flashMessagesService: FlashMessagesService,
   ) {
     this.toggleListener();
@@ -77,7 +79,7 @@ export class DashboardComponent implements OnInit {
   }
 
   public loadData() {
-    this.allUsers = new UserService(this.httpClient, this.authService);
+    this.allUsers = new UserService(this.httpClient, this.authService, this.translate, this.flashMessagesService);
     this.dataSource = new UserDataSource(this.allUsers, this.paginator, this.sort);
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
       .debounceTime(150)

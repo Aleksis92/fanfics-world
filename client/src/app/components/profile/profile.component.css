@@ -1,6 +1,7 @@
 #sidebar {
   min-width: 130px;
   padding-left: 0!important;
+  border: none!important;
 }
 .nav-link[data-toggle].collapsed:after {
   content: "▾";

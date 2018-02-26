@@ -101,7 +101,7 @@ const passwordValidators = [
 
 const userSchema = new Schema({
     socialId: {type: String, required: false, unique: false, lowercase: true},
-    email: {type: String, required: false, unique: false, lowercase: true, validate: emailValidators},
+    email: {type: String, required: false, default: 'Add email', unique: false, lowercase: true, validate: emailValidators},
     username: {type: String, required: true, unique: false, /*validate: usernameValidators*/},
     password: {type: String, required: false, validate: passwordValidators},
     provider: {type: String, required: false},
