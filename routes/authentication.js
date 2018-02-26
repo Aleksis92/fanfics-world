@@ -283,12 +283,7 @@ module.exports = (router) => {
                                     res.json({success: false, message: 'Password invalid'});
                                 } else {
                                     const token = jwt.sign({userId: user._id}, config.mongoose.secret, {expiresIn: '24h'});
-                                    res.json({
-                                        success: true,
-                                        message: 'Success!',
-                                        token: token,
-                                        user: {role: user.role}
-                                    })
+                                    res.json({success: true, message: 'Success!', token: token, user: user})
                                 }
                             }
                         }
