@@ -43,17 +43,6 @@
 
   {{ pct | number }}%
 
-  <div *ngIf="(snapshot | async) as snap">
-    {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
-
-    <hr>
-
-    <button (click)="task.pause()" class="btn btn-warning" [disabled]="!isActive(snap)">Pause</button>
-    <button (click)="task.cancel()" class="btn btn-danger" [disabled]="!isActive(snap)">Cancel</button>
-    <button (click)="task.resume()" class="btn btn-info"   [disabled]="!(snap?.state === 'paused')">Resume</button>
-
-  </div>
-
 </div>
 
 
