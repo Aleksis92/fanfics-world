@@ -44,6 +44,11 @@ const appRoutes: Routes = [
     canActivate: [NotAuthGuard]
   },
   {
+    path: 'login/verify/:_id/:hash',
+    component: LoginComponent,
+    canActivate: [NotAuthGuard]
+  },
+  {
     path: 'login/:token',
     component: LoginComponent,
     canActivate: [NotAuthGuard]

@@ -101,13 +101,15 @@ const passwordValidators = [
 
 const userSchema = new Schema({
     socialId: {type: String, required: false, unique: false, lowercase: true},
-    email: {type: String, required: false, unique: false, validate: emailValidators},
+    email: {type: String, required: false, unique: false, lowercase: true, validate: emailValidators},
     username: {type: String, required: true, unique: false, /*validate: usernameValidators*/},
     password: {type: String, required: false, validate: passwordValidators},
     provider: {type: String, required: false},
     photoUrl: {type: String, required: false, default: 'http://sprintresources.com/wp-content/uploads/2016/12/icon-user.png'},
     role: {type: String, default: 'User'},
+    active: {type: String, default: false},
     status: {type: String, default: 'Unblock'},
+    hash: {type: String}
 });
 
 userSchema.pre('save', function(next) {

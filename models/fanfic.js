@@ -34,6 +34,7 @@ const fanficSchema = new Schema({
     },
     fanficChapters: [chapterSchema]
 }).index({'$**': 'text'});
+
 fanficSchema.on('error', function (errorE) {
     console.log('---> index error: ', errorE);
 });

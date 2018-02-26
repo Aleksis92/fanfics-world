@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
+import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router, ActivatedRoute} from '@angular/router';
 import { Location } from '@angular/common';
@@ -28,6 +28,33 @@ export class LoginComponent implements OnInit {
     private location: Location){
     this.createForm()
   }
+
+  ngOnInit() {
+    this.activatedRoute.params.subscribe(params => {
+      if (params.token) {
+        this.provideToken(params);
+      }
+      if (params.hash) {
+        this.authService.verifyEmailHTTP(params._id, params.hash).subscribe(data => {
+          if ((<any>data).success) {
+            this.authService.showFlashMessage((<any>data).message, 'alert-success');
+          } else {
+            this.authService.showFlashMessage((<any>data).message, 'alert-danger');
+          }
+        });
+      }
+    });
+  }
+
+  provideToken(params) {
+    this.saveUserToken(params.token.replace(':', ''));
+    this.authService.getProfile().subscribe(data => {
+      this.loginSuccess('Social authentication success', (<any>data).user);
+    });
+    this.location.replaceState('/login');
+    this.authGuardRedirect();
+  }
+
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -98,19 +125,6 @@ export class LoginComponent implements OnInit {
       this.previousUrl = this.authGuard.redirectUrl;
       this.authGuard.redirectUrl = undefined;
     }
-  }
-
-  ngOnInit() {
-    this.activatedRoute.params.subscribe(params => {
-      if (params.token) {
-        this.saveUserToken(params.token.replace(":", ""));
-        this.authService.getProfile().subscribe(data => {
-          this.loginSuccess("Social authentication success", (<any>data).user)
-        });
-      }
-      this.location.replaceState("/login");
-      this.authGuardRedirect()
-    })
   }
 
 }

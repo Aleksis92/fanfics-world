@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient} from "@angular/common/http";
 import { tokenNotExpired } from 'angular2-jwt';
+import {FlashMessagesService} from 'angular2-flash-messages';
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable()
 export class AuthService {
@@ -12,8 +14,9 @@ export class AuthService {
   isAdmin;
   _id;
 
-  constructor(
-    private httpClient: HttpClient,) {
+  constructor(private httpClient: HttpClient,
+              private translate: TranslateService,
+              private flashMessagesService: FlashMessagesService) {
     this.checkAuth()
   }
 
@@ -31,6 +34,10 @@ export class AuthService {
 
   checkEmail(email) {
     return this.httpClient.get(this.domain + '/authentication/checkEmail/' + email);
+  }
+
+  verifyEmailHTTP(_id, hash) {
+    return this.httpClient.get(this.domain + '/authentication/verify/' + _id + '/' + hash);
   }
 
   login(user) {
@@ -95,7 +102,13 @@ export class AuthService {
   AdminSerfEnd() {
         this.user = this.admin;
         this.admin = undefined;
-    }
+  }
+
+  showFlashMessage(key, css) {
+    this.translate.get(key).subscribe((res: string) => {
+      this.flashMessagesService.show(res, {cssClass: css});
+    });
+  }
 
 
 }

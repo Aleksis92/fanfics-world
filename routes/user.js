@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const Fanfic = require('../models/fanfic');
+const Comment = require('../models/comment');
 
 module.exports = (router) => {
 
@@ -12,7 +14,7 @@ module.exports = (router) => {
             status: req.body.status
         });
         fanfic.save((err) => {
-            if(!err) {
+            if (!err) {
                 res.json({success: true, message: 'success', fanfic: JSON.stringify(user)})
             } else {
                 res.json({success: false, message: 'Could not save user. Error: ', err})
@@ -22,23 +24,8 @@ module.exports = (router) => {
 
     router.get('/allUsers', (req, res) => {
         User.find({}, (err, users) => {
-            if(!err) {
+            if (!err) {
                 res.json({success: true, message: 'success', users: JSON.stringify(users)})
-            } else {
-                res.json({success: false, message: 'Could not save user. Error: ', err})
-            }
-        });
-    });
-
-
-    router.post('/save/chapter', (req, res) => {
-        let chapter = {
-            title: req.body.title,
-            chapter: req.body.chapter
-        };
-        Fanfic.findOneAndUpdate({title: "f"}, {$push: {fanficChapters: chapter}} ,(err) => {
-            if(!err) {
-                res.json({success: true, message: 'success'})
             } else {
                 res.json({success: false, message: 'Could not save user. Error: ', err})
             }
@@ -47,9 +34,23 @@ module.exports = (router) => {
 
     router.post('/deleteUsers', (req, res) => {
         let j = true;
-        for (user of req.body ) {
+        for (user of req.body) {
             User.findByIdAndRemove(user._id, (err) => {
                 if (err) { j = false }
+                else {
+                    Fanfic.remove({createdBy: user._id}, (err) => {
+                        if (err) {
+                            j = false
+                        }
+                        else {
+                            Comment.remove({createdBy: user._id}, (err) => {
+                                if (err) {
+                                    j = false
+                                }
+                            })
+                        }
+                    })
+                }
             })
         }
         if (j === true) {
@@ -61,9 +62,11 @@ module.exports = (router) => {
 
     router.post('/changeUsersStatus', (req, res) => {
         let j = true;
-        for (user of req.body.users ) {
+        for (user of req.body.users) {
             User.findByIdAndUpdate(user._id, {$set: {status: req.body.status}}, (err) => {
-                if (err) { j = false }
+                if (err) {
+                    j = false
+                }
             })
         }
         if (j === true) {
@@ -75,9 +78,11 @@ module.exports = (router) => {
 
     router.post('/changeUsersRole', (req, res) => {
         let j = true;
-        for (user of req.body.users ) {
+        for (user of req.body.users) {
             User.findByIdAndUpdate(user._id, {$set: {role: req.body.role}}, (err) => {
-                if (err) { j = false }
+                if (err) {
+                    j = false
+                }
             })
         }
         if (j === true) {
